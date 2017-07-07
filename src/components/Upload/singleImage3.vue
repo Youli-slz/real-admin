@@ -116,7 +116,7 @@
             init: {
                'UploadProgress': function(up, files) {
                    console.log(1111111);
-                },
+               },
            'FileUploaded': function(up, file, info) {
                console.log(up);
             var domain = up.getOption('domain');
