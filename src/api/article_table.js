@@ -7,9 +7,9 @@ export function fetchList() {
   });
 }
 
-export function fetchChapterList(id) {
+export function fetchChapterList(bookId) {
   const data = {
-    id
+    bookId
   };
   return fetch({
     url: '/reading/coursemanager/getchapterlist',
