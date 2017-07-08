@@ -109,7 +109,7 @@
           self.postForm.bookid = Number.parseInt(this.$route.query.id)
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
             bookId: self.postForm.bookid,
-            indexId: self.postForm.indexid,
+            indexId: Number(self.postForm.indexid),
             title: self.postForm.title,
             cover: self.postForm.image_uri,
             content: self.postForm.content
