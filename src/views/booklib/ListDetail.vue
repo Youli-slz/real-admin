@@ -100,7 +100,7 @@
       },
       goAddSection() {
         this.id = Number.parseInt(this.$route.query.id)
-        this.$router.push('/booklib/AddSection?=' + this.id)
+        this.$router.push('/booklib/AddSection?id=' + this.id)
       },
         confirm(val) {
           var self = this
@@ -132,7 +132,7 @@
           this.getList();
         },
         goDetail: function(val) {
-          this.$router.push('/booklib/SectionDetail?=' + val)
+          this.$router.push('/booklib/SectionDetail?id=' + val)
         }
     },
     created() {
