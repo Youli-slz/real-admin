@@ -19,8 +19,7 @@
                     登录
                 </el-button>
             </el-form-item>
-            <div class='tips'>admin账号为:admin@wallstreetcn.com 密码随便填</div>
-            <div class='tips'>editor账号:editor@wallstreetcn.com 密码随便填</div>
+            <div class='tips'>账号为:admin@wallstreetcn.com 密码随便6位</div>
         </el-form>
         <el-dialog title="第三方验证" :visible.sync="showDialog">
             邮箱登录成功,请选择第三方验证
