@@ -124,6 +124,10 @@
                 console.log(err)
                 self.$message('提交失败')
               });
+            this.goListDetail(self.postForm.bookid);
+        },
+        goListDetail: function(val) {
+          this.$router.push('/booklib/ListDetail?id=' + val);
         }
       }
     }
