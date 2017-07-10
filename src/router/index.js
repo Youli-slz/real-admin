@@ -41,6 +41,9 @@ const Addbook = _import('booklib/AddBook');
 const AddSection = _import('booklib/AddSection');
 const SectionDetail = _import('booklib/SectionDetail');
 
+/* courselib */
+const CourseList = _import('courselib/CourseList');
+
 Vue.use(Router);
 
  /**
@@ -76,6 +79,16 @@ export const constantRouterMap = [
       { path: 'Addbook', component: Addbook, name: '新增书籍', hidden: true },
       { path: 'AddSection', component: AddSection, name: '新增章节', hidden: true },
       { path: 'SectionDetail', component: SectionDetail, name: '章节详情', hidden: true }
+    ]
+  },
+  {
+    path: '/courselib',
+    component: Layout,
+    reirect: '/courselib/CourseList',
+    icon: 'wujiaoxing',
+    noDropdown: true,
+    children: [
+      { path: 'CorseList', component: CourseList, name: '课程'}
     ]
   }
 ]

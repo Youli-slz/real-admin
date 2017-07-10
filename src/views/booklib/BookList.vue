@@ -30,7 +30,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="简介">
+      <el-table-column min-width="300px" align="center" label="简介">
         <template scope="scope">
           <el-input v-show="scope.row.edit" size="small" v-model="scope.row.title"></el-input>
           <span v-show="!scope.row.edit">{{ scope.row.abstract }}</span>
@@ -77,16 +77,6 @@
       },
       created() {
         this.getList();
-      },
-      filters: {
-        statusFilter(status) {
-          const statusMap = {
-            published: 'success',
-            draft: 'gray',
-            deleted: 'danger'
-          };
-          return statusMap[status]
-        }
       },
       methods: {
         getList() {                               /// 调用api中的方法，从后台得到书籍的列表
