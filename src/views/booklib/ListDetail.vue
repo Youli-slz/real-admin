@@ -48,7 +48,7 @@
         id: '',
         article: [],
         cataloglist: [],
-        pagesize: 10,
+        pagesize: 100,
         totalpage: 8,
         currentPage: 1,
         list:[]
