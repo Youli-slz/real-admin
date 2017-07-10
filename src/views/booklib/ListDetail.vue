@@ -61,14 +61,12 @@
       // },
       getList() {
         this.id = Number.parseInt(this.$route.query.id);
-        this.listLoading = true;
         fetchChapterList(this.id).then(response => {
           this.list = response.data.data.map(v => {
-            v.edit = false;
+             v.edit = false;
             return v
           });
           if (response.data.code === 0) {
-            this.listLoading = false;
             this.article = this.list;     // 将得到的数据传给alllist数组
             this.totalpage = this.list.length;
             this.cataloglist = [];
@@ -123,16 +121,16 @@
                   this.getList();
                 }
                 else {
-                  self.$message('删除失败')
+                  self.$message('删除失败');
                 }
               })
               .catch(function(err) {
-                console.log(err)
-                self.$message('删除失败')
+                console.log(err);
+                self.$message('删除失败');
               })
         },
         goDetail: function(val) {
-          this.$router.push('/booklib/SectionDetail?id=' + val)
+          this.$router.push('/booklib/SectionDetail?id=' + val);
         }
     },
     created() {

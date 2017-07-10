@@ -10,13 +10,13 @@
         <div class="am-form-group am-form-file" id="btnwrap">
           <label type="button" class="btn btn-default">
               <i class="glyphicon glyphicon-open-file"></i> 请选择需要上传的文件
-              <input type="file" id="qrcode_url" class="hide" />
+              <input type="file" id="qrcode_url" style="display:none;" />
           </label>
         </div>
         <div class="picList">
           <ul>
             <li :id="item.id" class="picItem" v-for="item in files">
-              <div class='picProgress'>
+              <div class="picProgress">
                 <div class="picProgress-info">
                   <span>{{ item.name }}</span>
                   <span class="percent">上传进度：0%</span>
@@ -26,7 +26,7 @@
             </li>
           </ul>
         </div>
-        <div style="padding-left:40px">
+        <div style="padding-left:40px;">
           <img :src="IMGURL" alt="" width="100" height="100">
         </div>
       </div>
@@ -50,7 +50,7 @@
     <el-input type="text" v-model="postForm.title"></el-input>
     </div>
     <div style="margin-bottom: 20px;">
-    <label>章节内容内容:</label>
+    <label>章节内容:</label>
     </div>
     <div style="margin-bottom: 20px;">
       <div class="editor-container">
@@ -58,7 +58,7 @@
       </div>
       </div>
       <div>
-        <el-button type="primary" @click="onSubmit">立即更新</el-button> 
+        <el-button type="primary" @click="onSubmit">立即提交</el-button> 
       </div>     
   </div>
 </template>
@@ -261,6 +261,16 @@
 <style scoped>
 h1 {
   color: #42b983;
+}
+
+.am-form-file {
+  width:200px;
+  height:30px;
+  text-align:center;
+  background:#3879d9;
+  color:#fff;
+  border-radius:3px;
+  margin-left:40px;
 }
 
 .picList {

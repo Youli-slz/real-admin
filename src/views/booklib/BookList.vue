@@ -56,7 +56,7 @@
 </template>
 
 <script>
-    import { fetchList } from 'api/article_table';
+    import { fetchList } from 'api/article_table';    /// 调用获取列表的接口方法
 
     export default {
       name: 'booklist',
@@ -89,7 +89,7 @@
         }
       },
       methods: {
-        getList() {
+        getList() {                               /// 调用api中的方法，从后台得到书籍的列表
           this.listLoading = true;
           fetchList().then(response => {
             this.list = response.data.data.map(v => {
@@ -111,10 +111,10 @@
             }
           })
         },
-        goDetail: function(val) {
+        goDetail: function(val) {                              /// 跳转到书本的章节列表页面，同时传一个书的id给章节列表页面
           this.$router.push('/booklib/ListDetail?id=' + val)
         },
-        goAdd: function() {
+        goAdd: function() {                                 /// 跳转到书本增加的页面
           this.$router.push('/booklib/AddBook')
         },
         handleSizeChange: function() {
@@ -144,9 +144,9 @@
           }).catch(() => {
           });
         },
-        delet: function(val) {
+        delet: function(val) {                               /// 删除书本的函数
           var self = this
-          this.axios.post('', { id: val })   // 需要添加删除的后台url
+          this.$http.post('', { id: val })   // 需要添加删除的后台url
               .then(function(res) {
                 var data = res.data
                 if (data.code === 0) {

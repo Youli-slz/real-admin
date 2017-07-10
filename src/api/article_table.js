@@ -18,16 +18,12 @@ export function fetchChapterList(bookId) {
   })
 }
 
-export function CreateChapter(bookId, indexId, title, cover, content) {
+export function  fetchChapterDetail(chapterId) {
   const data = {
-    bookId,
-    indexId,
-    title,
-    cover,
-    content
+    chapterId
   };
   return fetch({
-    url: '/reading/coursemanager/createchapter',
+    url: '/reading/coursemanager/getchapter',
     method: 'post',
     data
   })

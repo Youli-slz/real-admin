@@ -19,12 +19,8 @@
                     登录
                 </el-button>
             </el-form-item>
-            <div class='tips'>账号为:admin@wallstreetcn.com 密码随便6位</div>
+            <div class='tips'>账号为:admin 密码随便3位</div>
         </el-form>
-        <el-dialog title="第三方验证" :visible.sync="showDialog">
-            邮箱登录成功,请选择第三方验证
-            <socialSign></socialSign>
-        </el-dialog>
     </div>
 </template>
 
@@ -36,28 +32,28 @@
       components: { socialSign },
       name: 'login',
       data() {
-        const validateEmail = (rule, value, callback) => {
-          if (!isWscnEmail(value)) {
-            callback(new Error('请输入正确的合法邮箱'));
-          } else {
-            callback();
-          }
-        };
+        // const validateEmail = (rule, value, callback) => {
+        //   if (!isWscnEmail(value)) {
+        //     callback(new Error('请输入正确的合法邮箱'));
+        //   } else {
+        //     callback();
+        //   }
+        // };
         const validatePass = (rule, value, callback) => {
-          if (value.length < 6) {
-            callback(new Error('密码不能小于6位'));
+          if (value.length < 3) {
+            callback(new Error('密码不能小于3位'));
           } else {
             callback();
           }
         };
         return {
           loginForm: {
-            email: 'admin@wallstreetcn.com',
+            email: 'admin',
             password: ''
           },
-          loginRules: {
+          loginRules: {     /// 登陆规则 ， 校验账号密码
             email: [
-                { required: true, trigger: 'blur', validator: validateEmail }
+                { required: true, trigger: 'blur' }   /// validator: validatePass
             ],
             password: [
                 { required: true, trigger: 'blur', validator: validatePass }
@@ -74,7 +70,7 @@
               this.loading = true;
               this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
                 this.loading = false;
-                this.$router.push({ path: '/' });
+                this.$router.push({ path: '/booklib/BookList' });      /// 登陆成功后，重定向到书籍列表页面
                 // this.showDialog = true;
               }).catch(err => {
                 this.$message.error(err);
