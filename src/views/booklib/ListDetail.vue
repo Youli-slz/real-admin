@@ -120,6 +120,7 @@
                 var data = res.data
                 if (data.code === 0) {
                   self.$message('删除成功');
+                  this.getList();
                 }
                 else {
                   self.$message('删除失败')
@@ -129,7 +130,6 @@
                 console.log(err)
                 self.$message('删除失败')
               })
-          this.getList();
         },
         goDetail: function(val) {
           this.$router.push('/booklib/SectionDetail?id=' + val)

@@ -108,16 +108,5 @@ export const asyncRouterMap = [
     ],
     hidden: true
   },
-  {
-    path: '/errorpage',
-    component: Layout,
-    redirect: 'noredirect',
-    name: '错误页面',
-    icon: '404',
-    children: [
-      { path: '401', component: Err401, name: '401' },
-      { path: '404', component: Err404, name: '404' }
-    ]
-  },
   { path: '*', redirect: '/404', hidden: true }
 ];
