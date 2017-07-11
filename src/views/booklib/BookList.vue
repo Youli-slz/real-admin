@@ -14,32 +14,43 @@
 
       <el-table-column width="220px" align="center" label="书籍">
         <template scope="scope">
-          <span>{{scope.row.bookName}}</span>
+          <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.bookName"></el-input>
+          <span v-show="!scope.row.edit">{{scope.row.bookName}}</span>
         </template>
       </el-table-column>
 
       <el-table-column width="120px" align="center" label="作者">
         <template scope="scope">
-          <span>{{scope.row.author}}</span>
+          <el-input type="textarea" :row="3" v-show="scope.row.edit" size v-model="scope.row.author"></el-input>
+          <span v-show="!scope.row.edit">{{scope.row.author}}</span>
         </template>
       </el-table-column>
       
       <el-table-column width="180px" align="center" label="图片">
         <template scope="scope">
-          <img :src="scope.row.cover" alt="" width="100">
+            <div class="am-form-group am-form-file" :id="scope.row.id" v-show="scope.row.edit">
+              <label type="button" class="btn btn-default" :for="scope.row.id + 'img'">
+                  <i class="glyphicon glyphicon-open-file"></i>请选择图片
+                  <input type="file" :id="scope.row.id+ 'img'" style="display:none;"/>                 
+              </label>
+            <img :src="Book.cover" alt="" width="100">
+          </div>
+          <img  v-show="!scope.row.edit" :src="scope.row.cover" alt="" width="100">
         </template>
       </el-table-column>
 
       <el-table-column min-width="300px" align="center" label="简介">
         <template scope="scope">
-          <el-input v-show="scope.row.edit" size="small" v-model="scope.row.title"></el-input>
+          <el-input  type="textarea" :rows="3" v-show="scope.row.edit" size="small" v-model="scope.row.abstract"></el-input>
           <span v-show="!scope.row.edit">{{ scope.row.abstract }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="编辑" width="320">
         <template scope="scope">
-          <el-button  type="primary" @click='goDetail(scope.row.id)' size="small" icon="edit">编辑</el-button>
+          <el-button  type="primary" @click='goDetail(scope.row.id)' size="small" icon="search">章节</el-button>
+          <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small" icon="edit">更新</el-button>
+          <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false' size="small" icon="check">确定</el-button>
           <el-button type="primary"  @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
         </template>
       </el-table-column>
@@ -68,15 +79,23 @@
             page: 1,
             limit: 10
           },
+          Book: {
+            bookName: '',
+            abstract: null,
+            author: '',
+            cover: ''
+          },
           alllist: [],
           booklist: [],
           pagesize: 100,
           totalpage: 2,
-          currentPage: 1
+          currentPage: 1,
+          uptoken:''
         }
       },
       created() {
         this.getList();
+
       },
       methods: {
         getList() {                               /// 调用api中的方法，从后台得到书籍的列表
@@ -89,6 +108,9 @@
             if (response.data.code === 0) {
               this.listLoading = false
               this.alllist = this.list      // 将得到的数据传给alllist数组
+                this.getuptoken();
+                console.log(response)
+              console.log(this.alllist);
               this.totalpage = this.list.length
               this.booklist = []
               var currentSize = this.currentPage * this.pagesize    // 当前页数乘每一页的数据条数
@@ -102,10 +124,13 @@
           })
         },
         goDetail: function(val) {                              /// 跳转到书本的章节列表页面，同时传一个书的id给章节列表页面
-          this.$router.push('/booklib/ListDetail?id=' + val)
+          this.$router.push('/booklib/ListDetail?id=' + val);
         },
         goAdd: function() {                                 /// 跳转到书本增加的页面
-          this.$router.push('/booklib/AddBook')
+          this.$router.push('/booklib/AddBook');
+        },
+        goUpdate: function(val) {
+          this.$router.push('/booklib/UpdateBook?id=' + val);
         },
         handleSizeChange: function() {
           const self = this
@@ -135,22 +160,106 @@
           });
         },
         delet: function(val) {                               /// 删除书本的函数
-          var self = this
-          this.$http.post('', { id: val })   // 需要添加删除的后台url
+          var self = this;
+          console.log(val);
+          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/deletebook', { id: val })   // 需要添加删除的后台url
               .then(function(res) {
                 var data = res.data
                 if (data.code === 0) {
-                  self.$message('删除成功')
+                  self.$message('删除成功');
+                  this.getList();
                 }
                 else {
-                  self.$message('删除失败')
+                  self.$message('删除失败');
                 }
               })
               .catch(function(err){
-                console.log(err)
-                self.$message('删除失败')
+                console.log(err);
+                self.$message('删除失败');
               })
+        },
+        upload: function(val) {             /// 通过qiniu上传图片函数
+          var self = this;
+          var uploader = Qiniu.uploader({
+          runtimes: 'html5,flash,html4', //上传模式,依次退化
+          browse_button: val, //上传选择的点选按钮，**必需**
+          uptoken: self.uptoken,
+          //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+          // uptoken : '<Your upload token>',
+          //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+          // unique_names: true,
+          // 默认 false，key为文件名。若开启该选项，SDK会为每个文件自动生成key（文件名）
+          save_key: true,
+          // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
+          domain: 'http://oe3slowqt.bkt.clouddn.com/',
+          //bucket 域名，下载资源时用到，**必需**
+          container: 'btnwrap', //上传区域DOM ID，默认是browser_button的父元素，
+          max_file_size: '5mb', //最大文件体积限制
+          flash_swf_url: 'qiniu/Moxie.swf', //引入flash,相对路径
+          max_retries: 3, //上传失败最大重试次数
+          dragdrop: true, //开启可拖曳上传
+          drop_element: val, //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+          chunk_size: '4mb', //分块上传时，每片的体积
+          auto_start: true, //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+          filters: {
+            mime_types: [{
+                title: "Image files",
+                extensions: "jpg,png"
+              } // 限定flv后缀上传格式上传
+            ]
+          },
+          multi_selection: true,
+          init: {
+            'UploadProgress': function(up, file) { //上传中
+            },
+            'FileUploaded': function(up, file, info) {
+              var domain = up.getOption('domain');
+              var res = JSON.parse(info);
+              var urlImg = 'http://oe3slowqt.bkt.clouddn.com/' + res.key;
+              // console.log("img="+urlImg);
+              file.imgUrl = urlImg;
+              console.log(urlImg);
+              self.Book.cover = urlImg;
+              console.log(self.Book.cover)
+              // console.log(self.files[0].imgUrl)
+            },
+            'Error': function(up, err, errTip) {
+              //上传出错时，处理相关的事情
+              console.log("上传出错，请刷新重新上传");
+            }
+          }       
+         });
+       },
+       getuptoken: function() {                                    /// 从后台获取向qiniu传图片所必需的token，返回相应的key
+          var self = this;
+          this.$http.get('http://wxmp.gatao.cn/mypic/gettoken')    /// 通过get方法获取token
+             .then((response) => {
+           var data = response.data;       /// 解析从后台得到的数据
+           console.log(data)
+           self.uptoken = data.token;    /// 将token赋值给外部变量， 以便其他的方法的调用
+           console.log(self.alllist)
+        for(var i in self.alllist) 
+        {
+          self.upload(JSON.parse(i));
         }
+           
+        })
+        .catch((error) => {
+          console.log(error)      /// 错误在控制台输出
+        })           
+       },
       }
     }
 </script>
+
+<style>
+.am-form-file {
+  width:100px;
+  height:30px;
+  text-align:center;
+  background:#3879d9;
+  color:#fff;
+  border-radius:3px;
+  margin-left:40px;
+}
+</style>

@@ -64,12 +64,6 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="阅读数" width="95">
-        <template scope="scope">
-          <span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
-        </template>
-      </el-table-column>
-
       <el-table-column class-name="status-col" label="状态" width="90">
         <template scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
@@ -150,7 +144,7 @@
 </template>
 
 <script>
-    import { fetchList, fetchPv } from 'api/article_table';
+    import { fetchList } from 'api/article_table';
     import { parseTime } from 'utils';
 
     const calendarTypeOptions = [

@@ -1,10 +1,10 @@
-<!--<template>
+<template>
     <div class="app-container calerndar-list-container">
         <div style="width: 400px;padding: 10px">
             <el-button type="primary" size="small" @click="goAdd()" style="margin-buttom: 10px">添加课程</el-button>
         </div>
         <template>
-            <el-table :data="" v-loading.body = "listLoading" border fit highlight-current-row style="width:100%">
+            <el-table :data="courselist" v-loading.body = "listLoading" border fit highlight-current-row style="width:100%">
                 <el-table-column align="center" label="序号" width="80">
                     <template scope="scope">
                       <span>{{ scope.row.id }}</span>
@@ -50,86 +50,94 @@
             :current-page="currentPage" :page-size='pagesize' ayout="total, prev, pager, next" :total = 'totalpage'></el-pagination>
         </div>
     </div>
-</template>-->
+</template>
 
 <script>
-// export default {
-//     name: 'courselist',
-//     data() {
-//         return {
-//             list: null,
-//             listLoading: true,
-//             alllist: [],
-//             courselist: [],
-//             pagesize: 100,
-//             totalpage:1,
-//             currentPage:1
-//         }
-//     },
-//     methods: {
-//         getList: function() {
-//             this.listLoading = true;
-//             fetchCourseList().then(response => {
-//                 this.list = response.data.data.map(v => {
-//                     v.edit= false;
-//                     return v;
-//                 });
-//                 if (response.data.code === 0) {
-//                     this.listLoading = false;
-//                     this.alllist = this.list;
-//                     this.totalpage = this.lsit.length;
-//                     this.courselist = [];
-//                     var crrentSize = this.currentPage * this.pagesize;
-//                     if (currentSzie > thhis.alllist.length) {
-//                         currentSzie = this.alllist.length;
-//                     }
-//                     for (var i = (this.currentPage -1) * this.pagesize; i < currentSize; i++) {
-//                         this.courselist.push(this.alllist[i]);
-//                     }
-//                 }
-//             })
-//         },
-//         goDetail: function( val ) {
-//             this.$router.push('/courselist/CourseList?id=' + val);
-//         },
-//         goAdd: function() {
-//             this.$router.push('/courselist/AddCourse');
-//         },
-//         handleSizeChange: function() {
-//             const self= this;
-//             self.courselist =[];
-//             const j = self.currentPage === Math.ceil(self.alllist.length / self.pagesize) ? self.alllist.length: self.currentPage * self.pageszie;
-//             for (let i = (self.currentPage - 1) * self.pagesize; i < j; i++) {
-//                 self.courselist.push(self.alllist[i]);
-//            }
-//         },
-//         confirm(val) {
-//             var self = this;
-//             this.$confirm('是否删除？','提示', {
-//                 conofirmButtonText: '确定',
-//                 cancelButtonText: '取消',
-//                 type: 'warning'
-//             }).then(() => {
-//                 self.delet(val)
-//             }).catch(() => {});
-//        },
-//         delet: function(val) {                               /// 删除书本的函数
-//           var self = this
-//           this.$http.post('', { id: val })   // 需要添加删除的后台url
-//               .then(function(res) {
-//                 var data = res.data
-//                 if (data.code === 0) {
-//                   self.$message('删除成功')
-//                 }
-//                 else {
-//                   self.$message('删除失败')
-//                 }
-//               })
-//               .catch(function(err){
-//                 console.log(err)
-//                 self.$message('删除失败')
-//               })
-//         }
-//     }
-// }
+export default {
+    name: 'courselist',
+    data() {
+        return {
+            list: null,
+            listLoading: false,    /// 暂时改为false， 是等待的旋转框不出现
+            alllist: [],
+            courselist: [],
+            pagesize: 100,
+            totalpage:1,
+            currentPage:1
+        }
+    },
+    methods: {
+        getList: function() {
+            this.listLoading = true;
+            fetchCourseList().then(response => {
+                this.list = response.data.data.map(v => {
+                    v.edit= false;
+                    return v;
+                });
+                if (response.data.code === 0) {
+                    this.listLoading = false;
+                    this.alllist = this.list;
+                    this.totalpage = this.lsit.length;
+                    this.courselist = [];
+                    var crrentSize = this.currentPage * this.pagesize;
+                    if (currentSzie > thhis.alllist.length) {
+                        currentSzie = this.alllist.length;
+                    }
+                    for (var i = (this.currentPage -1) * this.pagesize; i < currentSize; i++) {
+                        this.courselist.push(this.alllist[i]);
+                    }
+                }
+            })
+        },
+        goDetail: function( val ) {
+            this.$router.push('/courselib/CourseDetailList?id=' + val);
+        },
+        goAdd: function() {
+            this.$router.push('/courselib/AddCourse');
+        },
+        handleSizeChange: function() {
+            const self= this;
+            self.courselist =[];
+            const j = self.currentPage === Math.ceil(self.alllist.length / self.pagesize) ? self.alllist.length: self.currentPage * self.pageszie;
+            for (let i = (self.currentPage - 1) * self.pagesize; i < j; i++) {
+                self.courselist.push(self.alllist[i]);
+           }
+        },
+        handleCurrentChange: function(val) {
+            const self = this;
+            self.courselist = [];
+            const j = val === Math.ceil(self.alllist.length / self.pagesize) ? self.alllist.length : val * self.pagesize;
+            for (let i = (val - 1) * self.pagesize; i < j; i++) {
+                self.courselist.push(self.alllist[i]);
+            }
+        },
+        confirm(val) {
+            var self = this;
+            this.$confirm('是否删除？','提示', {
+                conofirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                self.delet(val)
+            }).catch(() => {});
+       },
+        delet: function(val) {                               /// 删除书本的函数
+          var self = this
+          this.$http.post('', { id: val })   // 需要添加删除的后台url
+              .then(function(res) {
+                var data = res.data
+                if (data.code === 0) {
+                  self.$message('删除成功')
+                }
+                else {
+                  self.$message('删除失败')
+                }
+              })
+              .catch(function(err){
+                console.log(err)
+                self.$message('删除失败')
+              })
+        }
+    }
+}
 </script>
