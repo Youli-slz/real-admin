@@ -54,7 +54,7 @@
 
 ```
 
-## Changelog
+<!-- ## Changelog
 Detailed changes for each release are documented in the [release notes](https://github.com/PanJiaChen/vue-element-admin/releases).
 
 ## 状态管理
@@ -119,5 +119,5 @@ Detailed changes for each release are documented in the [release notes](https://
 ![enter image description here](https://github.com/PanJiaChen/vue-element-admin/blob/master/gifs/excel.png)
 
 
-## [更多demo](http://panjiachen.github.io/vue-element-admin)
+## [更多demo](http://panjiachen.github.io/vue-element-admin) -->
 
