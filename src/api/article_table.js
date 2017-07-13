@@ -36,4 +36,15 @@ export function  fetchChapterDetail(chapterId) {
   })
 }
 
+export function fetchmcourselist(courseId) {
+  const data = {
+    courseId
+  };
+  return fetch({
+    url: '/reading/coursemanager/getmcourselist',
+    method: 'post',
+    data
+  })
+}
+
 

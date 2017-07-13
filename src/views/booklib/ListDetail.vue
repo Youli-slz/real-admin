@@ -113,7 +113,7 @@
         },
         delet: function(val) {
           var self = this
-          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/deletechapter', { id: val })   // 需要添加删除的后台url
+          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/deletechapter', { id: val })       // 需要添加删除的后台url
               .then(function(res) {
                 var data = res.data
                 if (data.code === 0) {

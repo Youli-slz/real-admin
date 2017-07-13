@@ -55,13 +55,13 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column width="320" align="center" label="操作">
+                <el-table-column width="250" align="center" label="操作">
                     <template scope="scope">
-                        <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row.id)' icon="search">详情</el-button>
-                        <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true'  icon="edit">更新</el-button>
-                        <el-button type="primary" v-show="scope.row.edit" @click='updateCourse(scope.row),scope.row.edit=false'  icon="check">确定</el-button>
-                        <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false'  icon="check">取消</el-button>
-                        <el-button type="primary" v-show="!scope.row.edit" @click='confirm(scope.row.id)' icon="close">删除</el-button>
+                        <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row.id)' size="small" icon="search">详情</el-button>
+                        <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small"  icon="edit">更新</el-button>
+                        <el-button type="primary" v-show="scope.row.edit" @click='updateCourse(scope.row),scope.row.edit=false' size="small" icon="check">确定</el-button>
+                        <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false' size="small" icon="check">取消</el-button>
+                        <el-button type="primary" v-show="!scope.row.edit" @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -132,10 +132,13 @@ export default {
                     }
                     this.getuptoken();
                 }
+                else{
+                    this.listLoading = true;
+                }
             })
         },
         goDetail: function( val ) {
-            this.$router.push('/courselib/CourseDetailList?id=' + val);
+            this.$router.push('/courselib/CourseDetailList?courseid=' + val);
         },
         goAdd: function() {
             this.$router.push('/courselib/AddCourse');

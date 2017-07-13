@@ -46,6 +46,7 @@ const CourseList = _import('courselib/CourseList');
 const AddCourse = _import('courselib/AddCourse');
 const CourseDetailList = _import('courselib/CourseDetailList');
 const AddCouSection = _import('courselib/AddCouSection');
+const AddMCourse = _import('courselib/AddMCourse');
 
 Vue.use(Router);
 
@@ -94,7 +95,8 @@ export const constantRouterMap = [
       { path: 'CourseList', component: CourseList, name: '课程'},
       { path: 'AddCourse', component: AddCourse, name: '新增课程', hidden: true},
       { path: 'CourseDetailList', component: CourseDetailList, name: '课程月份目录列表', hidden: true},
-      { path: 'AddCouSection', component: AddCouSection, name: '新增课程章节', hideen: true}
+      { path: 'AddCouSection', component: AddCouSection, name: '新增课程章节', hidden: true},
+      { path: 'AddMCourse', component: AddMCourse, name: '新增课程月份'}
     ]
   }
 ]
