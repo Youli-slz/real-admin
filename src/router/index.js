@@ -58,12 +58,12 @@ Vue.use(Router);
   **/
 
 export const constantRouterMap = [
-    { path: '/login', component: Login, hidden: true },
+    { path: '/', component: Login, hidden: true },
     { path: '/authredirect', component: authRedirect, hidden: true },
     { path: '/404', component: Err404, hidden: true },
     { path: '/401', component: Err401, hidden: true },
   {
-    path: '/',
+    path: '/dashboard',
     component: Layout,
     redirect: '/dashboard',
     name: '首页',
@@ -91,9 +91,9 @@ export const constantRouterMap = [
     icon: 'wujiaoxing',
     noDropdown: true,
     children: [
-      { path: 'CorseList', component: CourseList, name: '课程'},
+      { path: 'CourseList', component: CourseList, name: '课程'},
       { path: 'AddCourse', component: AddCourse, name: '新增课程', hidden: true},
-      { path: 'CourseDetailList', component: CourseDetailList, name: '课程详情列表', hidden: true},
+      { path: 'CourseDetailList', component: CourseDetailList, name: '课程月份目录列表', hidden: true},
       { path: 'AddCouSection', component: AddCouSection, name: '新增课程章节', hideen: true}
     ]
   }

@@ -7,6 +7,13 @@ export function fetchList() {
   });
 }
 
+export function fetchCourseList() {
+  return fetch({
+    url: '/reading/coursemanager/getcourselist',
+    method: 'post'
+  })
+}
+
 export function fetchChapterList(bookId) {
   const data = {
     bookId
@@ -28,3 +35,5 @@ export function  fetchChapterDetail(chapterId) {
     data
   })
 }
+
+

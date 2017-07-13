@@ -9,6 +9,7 @@
       <el-table-column align="center" label="序号" width="80">
         <template scope="scope">
           <span>{{scope.row.id}}</span>
+          <!--<span>{{ key }}</span>-->
         </template>
       </el-table-column>
 
@@ -28,12 +29,12 @@
       
       <el-table-column width="180px" align="center" label="图片">
         <template scope="scope">
-            <div class="am-form-group am-form-file" :id="scope.row.id" v-show="scope.row.edit">
-              <label type="button" class="btn btn-default" :for="scope.row.id + 'img'">
-                  <i class="glyphicon glyphicon-open-file"></i>请选择图片
-                  <input type="file" :id="scope.row.id+ 'img'" style="display:none;"/>                 
+            <div class="am-form-group am-form-file" :id="scope.$index" v-show="scope.row.edit">
+              <label type="button" class="btn btn-default" :for="scope.$index+'img'">
+                  <i class="glyphicon glyphicon-open-file"></i>请点击选择图片
+                  <input type="file" :id="scope.$index + 'img'" style="display:none;"/>                 
               </label>
-            <img :src="Book.cover" alt="" width="100">
+            <img :src="Book.cover" alt="" width="100" >
           </div>
           <img  v-show="!scope.row.edit" :src="scope.row.cover" alt="" width="100">
         </template>
@@ -48,10 +49,11 @@
 
       <el-table-column align="center" label="编辑" width="320">
         <template scope="scope">
-          <el-button  type="primary" @click='goDetail(scope.row.id)' size="small" icon="search">章节</el-button>
+          <el-button  type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row.id)' size="small" icon="search">章节</el-button>
           <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small" icon="edit">更新</el-button>
-          <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false' size="small" icon="check">确定</el-button>
-          <el-button type="primary"  @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
+          <el-button type="primary" v-show="scope.row.edit" @click='updateBook(scope.row),scope.row.edit=false'  size="small" icon="check">确定</el-button>
+          <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false'  size="small" icon="check">取消</el-button>          
+          <el-button type="primary"  v-show="!scope.row.edit" @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
         </template>
       </el-table-column>
 
@@ -90,7 +92,8 @@
           pagesize: 100,
           totalpage: 2,
           currentPage: 1,
-          uptoken:''
+          uptoken:'',
+          bookimg:''
         }
       },
       created() {
@@ -118,7 +121,7 @@
                 currentSize = this.alllist.length                   // currentSize即为整个列表的长度
               }
               for (var i = (this.currentPage - 1) * this.pagesize; i < currentSize; i++) {
-                this.booklist.push(this.alllist[i])
+                this.booklist.push(this.alllist[i]);
               }
             }
           })
@@ -146,6 +149,7 @@
           const j = val === Math.ceil(self.alllist.length / self.pagesize) ? self.alllist.length : val * self.pagesize
           for (let i = (val - 1) * self.pagesize; i < j; i++) {
             self.booklist.push(self.alllist[i])
+            self.booklist
           }
         },
         confirm(val) {
@@ -182,7 +186,7 @@
           var self = this;
           var uploader = Qiniu.uploader({
           runtimes: 'html5,flash,html4', //上传模式,依次退化
-          browse_button: val, //上传选择的点选按钮，**必需**
+          browse_button: val+'img' , //上传选择的点选按钮，**必需**
           uptoken: self.uptoken,
           //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
           // uptoken : '<Your upload token>',
@@ -193,7 +197,7 @@
           // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
           domain: 'http://oe3slowqt.bkt.clouddn.com/',
           //bucket 域名，下载资源时用到，**必需**
-          container: 'btnwrap', //上传区域DOM ID，默认是browser_button的父元素，
+          container: val, //上传区域DOM ID，默认是browser_button的父元素，
           max_file_size: '5mb', //最大文件体积限制
           flash_swf_url: 'qiniu/Moxie.swf', //引入flash,相对路径
           max_retries: 3, //上传失败最大重试次数
@@ -240,7 +244,7 @@
            console.log(self.alllist)
         for(var i in self.alllist) 
         {
-          self.upload(JSON.parse(i));
+          self.upload(i);
         }
            
         })
@@ -248,12 +252,54 @@
           console.log(error)      /// 错误在控制台输出
         })           
        },
+      //  Uconfirm: function(val) {
+      //   console.log(val);
+      //   var self = this;
+      //     this.$confirm('是否更新？', '提示', {
+      //       confirmButtonText: '确定',
+      //       cancelButtonText: '取消',
+      //       type: 'warning'
+      //     })
+      //     .then((response) => {
+      //       self.updateBook(val);
+      //     })
+      //       .catch(() => {
+      //     });
+      //  },
+       updateBook: function(val) {
+        var self = this;
+        if(self.Book.cover != ""){
+          self.bookimg = self.Book.cover;
+        }
+        else {
+          self.bookimg = val.cover;
+        }
+        console.log(val);
+        this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatebook',{
+          id: val.id,
+          bookName: val.bookName,
+          author: val.author,
+          abstract: val.abstract,
+          cover: self.bookimg
+        })
+            .then(function(res) {
+              var data = res.data;
+              if(data.code === 0){
+                self.$message('更新成功');
+                self.getList();
+              }
+            })
+            .catch(function(err) {
+              console.log(err);
+              self.$message('更新失败');
+            })
+       }
       }
     }
 </script>
 
 <style>
-.am-form-file {
+/*.am-form-file {
   width:100px;
   height:30px;
   text-align:center;
@@ -261,5 +307,5 @@
   color:#fff;
   border-radius:3px;
   margin-left:40px;
-}
+}*/
 </style>

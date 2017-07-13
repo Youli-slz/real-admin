@@ -2,7 +2,7 @@
     <el-menu class="navbar" mode="horizontal">
         <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
         <levelbar></levelbar>
-        <tabs-view></tabs-view>
+        <!-- <tabs-view></tabs-view> -->
         <error-log v-if="log.length>0" class="errLog-container" :logsList="log"></error-log>
         <screenfull class='screenfull'></screenfull>
         <el-dropdown class="avatar-container" trigger="click">
@@ -11,7 +11,7 @@
                 <i class="el-icon-caret-bottom"></i>
             </div>
             <el-dropdown-menu class="user-dropdown" slot="dropdown">
-                <router-link class='inlineBlock' to="/">
+                <router-link class='inlineBlock' to="/booklib/BookList">
                     <el-dropdown-item>
                         首页
                     </el-dropdown-item>

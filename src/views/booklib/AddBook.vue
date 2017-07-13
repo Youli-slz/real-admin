@@ -53,10 +53,8 @@
     <label>书本简介:</label>
     </div>
     <div style="margin-bottom: 20px;">
-      <div class="editor-container">
-        <Tinymce :height=400 ref="editor" v-model="Book.abstract"></Tinymce>
-      </div>
-      </div>
+      <el-input  type="textarea" :rows="5" v-model="Book.abstract"></el-input>
+    </div>
       <div>
         <el-button type="primary" @click="onSubmit">立即提交</el-button> 
       </div>     
@@ -64,77 +62,21 @@
 </template>
 
 <script>
-    import Tinymce from 'components/Tinymce'
 
     export default{
       name: 'add-section',
-      components: { Tinymce },
       data() {
-        const validateRequire = (rule, value, callback) => {
-          if (value === '') {
-            this.$message({
-              message: rule.field + '为必传项',
-              type: 'error'
-            });
-            callback(null)
-          } else {
-            callback()
-          }
-        };
-        const validateSourceUri = (rule, value, callback) => {
-          if (value) {
-            if (validateURL(value)) {
-              callback()
-            } else {
-              this.$message({
-                message: '外链url填写不正确',
-                type: 'error'
-              });
-              callback(null)
-            }
-          } else {
-            callback()
-          }
-        };
         return {
-          postForm: {
-            title: '', // 文章题目
-            content: '', // 文章内容
-            content_short: '', // 文章摘要
-            source_uri: '', // 文章外链
-            image_uri: '', // 文章图片
-            source_name: '', // 文章外部作者
-            display_time: undefined, // 前台展示时间
-            id: undefined,
-            platforms: ['a-platform']
-          },
           Book: {
             bookName: '',
-            abstract: '',
+            abstract: null,
             author: '',
-            cover: '',
-            id: 0,   /// 等有接口后视接口而定
+            cover: ''
           },
-          popupFlag: false,
-          popupContent: '',
           uptoken: '',
           files: [],
           imgInfo: [],
           IMGURL:'',
-          fetchSuccess: true,
-          loading: false,
-          userLIstOptions: [],
-          platformsOptions: [
-            { key: 'a-platform', name: 'a-platform' },
-            { key: 'b-platform', name: 'b-platform' },
-            { key: 'c-platform', name: 'c-platform' }
-          ],
-          rules: {
-            image_uri: [{ validator: validateRequire }],
-            title: [{ validator: validateRequire }],
-            content: [{ validator: validateRequire }],
-            source_uri: [{ validator: validateSourceUri, trigger: 'blur' }]
-          }
         }
       },
       methods: {
@@ -142,11 +84,10 @@
         onSubmit: function() {
           var self = this;
           self.Book.id = Number.parseInt(this.$route.query.id)         /// 从url上获取跳转过来的页面传过来的值
-          this.$http.post('', {         /// 以下是向后台传输的数据
-            bookId: self.Book.id,
+          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createbook', {         /// 以下是向后台传输的数据
             bookName: self.Book.bookName,
             cover: self.Book.cover,
-            content: self.Book.abstract,
+            abstract: self.Book.abstract,
             author: self.Book.author
           })
               .then(function(res) {
