@@ -1,48 +1,33 @@
 <template>
     <div class="app-container calerndar-list-container">
         <div style="width: 400px;padding: 10px">
-            <el-button type="primary" size="small" @click="goAdd()" style="margin-buttom: 10px">新建课程月份</el-button>
+            <el-button type="primary" size="small" @click="goAdd()" style="margin-buttom: 10px">新建课程月份书籍</el-button>
         </div>
         <template>
             <el-table :data="courselist" v-loading.body = "listLoading" border fit highlight-current-row style="width:100%">
                 <el-table-column align="center" label="序号" width="80">
                     <template scope="scope">
-                      <span>{{ scope.row.indexId }}</span>
+                        <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.indexId"></el-input>
+                      <span v-show="!scope.row.edit">{{ scope.row.indexId }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column width="150px" align="center" label="标题">
+                <el-table-column width="150px" align="center" label="课程ID">
                     <template scope="scope"> 
-                        <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.title"></el-input>
-                        <span v-show="!scope.row.edit">{{ scope.row.title }}</span>
+                        <span>{{ scope.row.courseId }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column width="80px" align="center" label="年份">
+                <el-table-column width="150px" align="center" label="课程月份ID">
                     <template scope="scope"> 
-                        <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.year"></el-input>
-                        <span v-show="!scope.row.edit">{{ scope.row.year }}</span>
+                        <span>{{ scope.row.monthCourseId }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column width="80px" align="center" label="月份">
+                <el-table-column width="150px" align="center" label="书籍ID">
                     <template scope="scope"> 
-                        <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.month"></el-input>
-                        <span v-show="!scope.row.edit">{{ scope.row.month }}</span>
-                    </template>
-                </el-table-column>
-
-                <el-table-column width="100px" align="center" label="En月份">
-                    <template scope="scope"> 
-                        <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.monthEn"></el-input>
-                        <span v-show="!scope.row.edit">{{ scope.row.monthEn }}</span>
-                    </template>
-                </el-table-column>
-
-                <el-table-column min-width="300" align="center" label="简介">
-                    <template scope="scope">
-                        <el-input type="textarea" :rows="3" v-show="scope.row.edit" size="small" v-model="scope.row.introduction"></el-input>
-                        <span v-show="!scope.row.edit"> {{ scope.row.introduction }}</span>
+                        <el-input type="text" v-show="scope.row.edit" size v-model="scope.row.bookId"></el-input>
+                        <span v-show="!scope.row.edit">{{ scope.row.bookId }}</span>
                     </template>
                 </el-table-column>
 
@@ -54,7 +39,7 @@
 
                 <el-table-column width="320" align="center" label="操作">
                     <template scope="scope">
-                        <el-button type="primary" v-show="!scope.row.edit" @click='goMcbooklist(scope.row.id)' icon="search">详情</el-button>
+                        <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row)' icon="search">详情</el-button>
                         <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true'  icon="edit">更新</el-button>
                         <el-button type="primary" v-show="scope.row.edit" @click='updateCourse(scope.row),scope.row.edit=false'  icon="check">确定</el-button>
                         <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false'  icon="check">取消</el-button>
@@ -73,7 +58,7 @@
 </template>
 
 <script>
-import { fetchmcourselist } from 'api/article_table';    /// 调用获取列表的接口方法
+import { fetchmcbooklist } from 'api/article_table';    /// 调用获取列表的接口方法
 
 export default {
     name: 'courselist',
@@ -108,7 +93,10 @@ export default {
         getList: function() {
             // this.listLoading = false;
             var courseid = Number.parseInt(this.$route.query.courseid);
-            fetchmcourselist(courseid).then(response => {
+            var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
+            console.log(courseid);
+            console.log(monthcourseid);
+            fetchmcbooklist(courseid,monthcourseid).then(response => {
                 this.list = response.data.data.map(v => {
                     v.edit= false;
                     return v;
@@ -132,13 +120,13 @@ export default {
                 }
             })
         },
-        goMcbooklist: function( val ) {
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            this.$router.push('/courselib/McBookList?courseid='+courseid + '&monthcourseid='+val);
+        goDetail: function( val ) {
+            this.$router.push({name:'月份书籍目录', params: {courseid: val.courseId, monthcourseid: val.monthCourseId,bookid: val.bookId}});
         },
         goAdd: function() {
             var courseid = Number.parseInt(this.$route.query.courseid);
-            this.$router.push('/courselib/AddMCourse?courseid='+courseid);
+            var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
+            this.$router.push('/courselib/AddMcBook?courseid='+courseid + '&monthcourseid='+ monthcourseid);
         },
         handleSizeChange: function() {
             const self= this;
@@ -168,7 +156,7 @@ export default {
        },
         delet: function(val) {                               /// 删除书本的函数
           var self = this
-          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/deletemcourse', { id: val })   // 需要添加删除的后台url
+          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/deletemcbook', { id: val })   // 需要添加删除的后台url
               .then(function(res) {
                 var data = res.data;
                 if (data.code === 0) {
@@ -187,14 +175,12 @@ export default {
        updateCourse: function(val) {
            var self = this;
            console.log(val.id);
-           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatemcourse',{
+           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatemcbook',{
                id: val.id,
                courseId: val.courseId,
-               indexId: val.indexId,
-               year: val.year,
-               month: val.month,
-               title: val.title,
-               introduction: val.introduction,
+               indexId: Number.parseInt(val.indexId),
+               monthCourseId: val.monthCourseId,
+               bookId: Number.parseInt(val.bookId)
            })
                .then(function(res) {
                    var data = res.data;

@@ -47,4 +47,38 @@ export function fetchmcourselist(courseId) {
   })
 }
 
+export function fetchmcbooklist(courseId, monthCourseId) {
+  const data = {
+      courseId,
+      monthCourseId
+  };
+  return fetch({
+    url: '/reading/coursemanager/getmcbooklist',
+    method: 'post',
+    data
+  })
+}
 
+export function fetchmcbcataloglist(courseId, monthCourseId, bookId) {
+  const data = {
+    courseId,
+    monthCourseId,
+    bookId
+  };
+  return fetch({
+    url: '/reading/coursemanager/getmcbcataloglist',
+    method: 'post',
+    data
+  })
+}
+
+export function fetchmcbcChapterList(monthCourseCatalogId) {
+  const data ={
+    monthCourseCatalogId
+  };
+  return fetch({
+    url: '/reading/coursemanager/getmcbcchapterlist',
+    method: 'post',
+    data
+  })
+}
