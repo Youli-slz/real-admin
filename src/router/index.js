@@ -45,8 +45,13 @@ const SectionDetail = _import('booklib/SectionDetail');
 const CourseList = _import('courselib/CourseList');
 const AddCourse = _import('courselib/AddCourse');
 const CourseDetailList = _import('courselib/CourseDetailList');
-const AddCouSection = _import('courselib/AddCouSection');
 const AddMCourse = _import('courselib/AddMCourse');
+const McBookList = _import('courselib/McBookList');
+const AddMcBook = _import('courselib/AddMcBook');
+const McbCatalogList = _import('courselib/McbCatalogList');
+const AddMcbCatalog = _import('courselib/AddMcbCatalog');
+const McbcChapterList = _import('courselib/McbcChapterList');
+const AddMcbcChapter = _import('courselib/AddMcbcChapter');
 
 Vue.use(Router);
 
@@ -60,6 +65,7 @@ Vue.use(Router);
 
 export const constantRouterMap = [
     { path: '/', component: Login, hidden: true },
+    { path: '/login', component: Login, hidden: true},
     { path: '/authredirect', component: authRedirect, hidden: true },
     { path: '/404', component: Err404, hidden: true },
     { path: '/401', component: Err401, hidden: true },
@@ -92,11 +98,16 @@ export const constantRouterMap = [
     icon: 'wujiaoxing',
     noDropdown: true,
     children: [
-      { path: 'CourseList', component: CourseList, name: '课程'},
-      { path: 'AddCourse', component: AddCourse, name: '新增课程', hidden: true},
-      { path: 'CourseDetailList', component: CourseDetailList, name: '课程月份目录列表', hidden: true},
-      { path: 'AddCouSection', component: AddCouSection, name: '新增课程章节', hidden: true},
-      { path: 'AddMCourse', component: AddMCourse, name: '新增课程月份'}
+      { path: 'CourseList', component: CourseList, name: '课程' },
+      { path: 'AddCourse', component: AddCourse, name: '新增课程', hidden: true },
+      { path: 'CourseDetailList', component: CourseDetailList, name: '课程月份目录列表', hidden: true },
+      { path: 'AddMCourse', component: AddMCourse, name: '新增课程月份', hidden: true },
+      { path: 'McBookList', component: McBookList, name: '月份书籍列表', hidden: true },
+      { path: 'AddMcBook', component: AddMcBook, name: '添加月份书籍', hidden: true },
+      { path: 'McbCatalogList/:courseid/:monthcourseid/:bookid', component: McbCatalogList, name: '月份书籍目录', hidden: true },
+      { path: 'AddMcbCatalog/:courseid/:monthcourseid/:bookid', component: AddMcbCatalog, name: '添加月份书籍目录', hidden: true },
+      { path: 'McbcChapterList', component: McbcChapterList, name: '月份书籍章节', hidden: true },
+      { path: 'AddMcbcChapter', component: AddMcbcChapter, name: '添加课程书籍章节列表', hidden: true }
     ]
   }
 ]
