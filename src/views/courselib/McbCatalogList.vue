@@ -108,7 +108,6 @@ export default {
     },
     methods: {
         getList: function() {
-            this.listLoading = true;
             this.courseid = Number.parseInt(this.$route.params.courseid);
             this.monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
             this.bookid = Number.parseInt(this.$route.params.bookid);
