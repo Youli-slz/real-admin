@@ -74,7 +74,11 @@ export default {
             courselist: [],
             pagesize: 100,    // 每页有一百列
             totalpage:1,
-            currentPage:1
+            currentPage:1,
+            courseId: null,
+            monthCourseId: null,
+            bookId: null
+
         }
     },
     filters:{
@@ -112,7 +116,6 @@ export default {
                         currentSize = this.alllist.length;
                     }
                     for (var i = (this.currentPage -1) * this.pagesize; i < currentSize; i++) {
-                        this.alllist[i].money
                         this.courselist.push(this.alllist[i]);
                     }
                 }
@@ -175,7 +178,6 @@ export default {
         },
        updateCourse: function(val) {
            var self = this;
-           console.log(val.id);
            this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatemcbook',{
                id: val.id,
                courseId: val.courseId,
@@ -198,6 +200,7 @@ export default {
     },
     created(){
        this.getList();
+    //    this.$router.push({name:'月份书籍目录', params: {courseid: val.courseId, monthcourseid: val.monthCourseId,bookid: val.bookId}});
     }
 }
 </script>
