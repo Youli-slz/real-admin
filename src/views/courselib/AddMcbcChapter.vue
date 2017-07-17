@@ -37,7 +37,7 @@
                 </el-table-column>
             </el-table>
           </el-checkbox-group>
-            <!-- <span v-for="item in Chapterlist">{{ item.id }}, </span> -->
+             <!-- <span v-for="item in Chapterlist">{{ item.id }}, </span>  -->
 
         </template>
         <div style="margin-bottom: 40px;">
@@ -46,8 +46,21 @@
             @current-change="handleCurrentChange"
             :current-page="currentPage" :page-size='pagesize' ayout="total, prev, pager, next" :total = 'totalpage'></el-pagination>
         </div>
+        <div class="" v-for="(item, key) in reply">
+           <label>语音</label>
+            <div :id="key" style="margin-bottom: 20px;">
+            <label :for="key+ 'audio'" class="el-button el-button--primary el-button--small">
+              <i class="el-icon-upload"></i><span>点击上传语音</span>
+            </label>
+            <div><audio :src="item.content" controls :id="'content'+ key">
+            您的浏览器不支持 audio 标签.
+            </audio></div>
+            <input type="file" :id="key + 'audio'" style="display: none;" />
+            </div>
+        </div>
 
         <el-button @click='updateCourse'>创建</el-button>
+        <el-button @click='Addaudio'>添加语音</el-button>
     </div>
 </template>
 
@@ -72,11 +85,26 @@ export default {
             bookid: null,
             Chapterlist:[],
             Chapterlist1:[],
-            checkall: false
+            checkall: false,
+            uptoken:'',
+            audioUrl:'',
+            reply:[{
+                msgType: 34,
+                content: ''
+            }]
 
         }
     },
     methods: {
+        Addaudio: function() {
+            var self = this;
+            this.reply.push({msgType: 34, content: ''});
+            this.$nextTick(function(){
+                setTimeout(function(){
+                    self.getuptoken()
+                },500)
+            })
+        },
         checkAll: function () {//全选
             if (!this.checkall) {
                 this.Chapterlist = []         
@@ -164,10 +192,76 @@ export default {
        },
        goback: function() {
           this.$router.push('/courselib/McbcChapterList?id=' + this.monthcoursecatalogid+ '&bookid='+ this.bookid);
-       }
+       },
+       getuptoken:function() {
+            var self = this;
+            this.$http.get('http://wxmp.gatao.cn/mypic/gettoken')
+                .then((response) => {
+                var data = response.data;     
+                self.uptoken = data.token;
+                for(var i in self.reply)
+                {
+                    if(self.reply[i].msgType == 34){
+                    self.uploadaudio(i);
+                    }                    
+                }
+
+            })
+            .catch((error) => {
+            console.log(error)
+            })
+        },
+        uploadaudio:function(val){
+            var self = this;
+            var uploader = Qiniu.uploader({
+            runtimes: 'html5,flash,html4', //上传模式,依次退化
+            browse_button: val+'audio', //上传选择的点选按钮，**必需**
+            uptoken: this.uptoken,
+            //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+            // uptoken : '<Your upload token>',
+            //若未指定uptoken_url,则必须指定 uptoken ,uptoken由其他程序生成
+            // unique_names: true,
+            // 默认 false，key为文件名。若开启该选项，SDK会为每个文件自动生成key（文件名）
+            save_key: true,
+            // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
+            domain: 'http://oe3slowqt.bkt.clouddn.com/',
+            //bucket 域名，下载资源时用到，**必需**
+            container: val, //上传区域DOM ID，默认是browser_button的父元素，
+            max_file_size: '5mb', //最大文件体积限制
+            flash_swf_url: 'qiniu/Moxie.swf', //引入flash,相对路径
+            max_retries: 3, //上传失败最大重试次数
+            dragdrop: true, //开启可拖曳上传
+            drop_element: val, //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+            chunk_size: '4mb', //分块上传时，每片的体积
+            auto_start: true, //选择文件后自动上传，若关闭需要自己绑定事件触发上传
+            filters: {
+            mime_types: [
+                {title : "Audio files", extensions : "mp3"} // 限定flv后缀上传格式上传
+            ]
+            },
+            multi_selection: false,
+            init: {   
+             UploadProgress: function(up, file) {
+            },
+            'FileUploaded': function(up, file, info) {
+                var domain = up.getOption('domain');
+                var res = JSON.parse(info);
+                var urlImg = 'http://oe3slowqt.bkt.clouddn.com/' + res.key;
+                self.reply[val].content = urlImg;
+                console.log(self.audioUrl);
+            },
+            'Error': function(up, err, errTip) {
+                    //上传出错时，处理相关的事情
+                    console.log(err);
+                    alert("上传出错，请刷新重新上传")
+                }
+            }
+        });
+      }
     },
     created(){
        this.getList();
+       this.getuptoken();
     }
 }
 </script>

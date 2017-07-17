@@ -44,7 +44,7 @@
                             <span>开始时间</span><el-date-picker  v-model="NewStartTime" type="datetime" format="yyyy-MM-dd" placeholder="选择日期时间" ></el-date-picker> <br>
                             <span>结束时间</span><el-date-picker v-model="NewEndTime" type="datetime" format="yyyy-MM-dd " placeholder="选择日期时间"></el-date-picker>
                         </div>
-                        <span v-show="!scope.row.edit"> {{ scope.row.startTime | timeStemp}} -- {{ scope.row.endTime | timeStemp}}</span>
+                        <span v-show="!scope.row.edit"> {{ scope.row.startTime | timeStemp}} / {{ scope.row.endTime | timeStemp}}</span>
                     </template>
                 </el-table-column>
 
