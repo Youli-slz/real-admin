@@ -105,7 +105,7 @@ export const constantRouterMap = [
       { path: 'McBookList', component: McBookList, name: '月份书籍列表', hidden: true },
       { path: 'AddMcBook', component: AddMcBook, name: '添加月份书籍', hidden: true },
       { path: 'McbCatalogList/:courseid/:monthcourseid/:bookid', component: McbCatalogList, name: '月份书籍目录', hidden: true },
-      { path: 'AddMcbCatalog/:courseid/:monthcourseid/:bookid', component: AddMcbCatalog, name: '添加月份书籍目录', hidden: true },
+      { path: 'AddMcbCatalog/:courseid/:monthcourseid/:bookid/:indexid', component: AddMcbCatalog, name: '添加月份书籍目录', hidden: true },
       { path: 'McbcChapterList', component: McbcChapterList, name: '月份书籍章节', hidden: true },
       { path: 'AddMcbcChapter', component: AddMcbcChapter, name: '添加课程书籍章节列表', hidden: true }
     ]

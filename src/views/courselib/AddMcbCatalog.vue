@@ -5,7 +5,7 @@
       <label>序号:</label>
       </div>
     <div style="margin-bottom: 20px;">
-      <el-input v-model="Catalog.indexId"></el-input>  
+      <el-input v-model="indexId"></el-input>  
     </div>
 
     <div style="margin-bottom: 20px;">
@@ -35,14 +35,14 @@
       data() {
         return {
           Catalog: {
-            indexId: null,
             courseId: null,
             monthCourseId: null,
             bookId: null,
             title: '',
             taskTime: null
         },
-          taskT: null
+          taskT: null,
+          indexId: null
         }
       },
       methods: {
@@ -93,6 +93,9 @@
         goCourseList: function(val){                    /// 提交完成后跳转到列表页面 
           this.$router.push({name:'月份书籍目录', params: {courseid: val.Catalog.courseId, monthcourseid: val.Catalog.monthCourseId,bookid: val.Catalog.bookId}});
        }
+      },
+      created(){
+        this.indexId = Number.parseInt(this.$route.params.indexid) +1;
       }
     }
 </script>

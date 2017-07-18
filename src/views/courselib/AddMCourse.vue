@@ -90,6 +90,9 @@
           var courseid = Number.parseInt(this.$route.query.courseid); 
           this.$router.push('/courselib/CourseDetailList?courseid='+courseid);
        }
+      },
+      created(){
+        this.MCourse.indexId = Number.parseInt(this.$route.query.indexid) + 1;
       }
     }
 </script>

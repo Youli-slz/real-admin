@@ -42,7 +42,10 @@
     </div>
     <div style="margin-bottom: 20px;">
       <div class="editor-container">
-        <Tinymce :height=400 ref="editor" v-model="postForm.content"></Tinymce>
+        <!-- <el-button @click='xieru'>显示章节详情</el-button> -->
+        <!-- <Tinymce :height=400 ref="editor" v-model="postForm.content"></Tinymce> -->
+        <!-- <div id="editor" type="text/plain" style="width:1024px;height:500px;"></div>  -->
+        <UE :defaultMsg="defaultMsg" :config="config" ref="ue"></UE>
       </div>
       </div>
       <div style="margin-bottom: 20px;">
@@ -53,12 +56,14 @@
 </template>
 
 <script>
-    import Tinymce from 'components/Tinymce';
+    // import Tinymce from 'components/Tinymce';
+    import UE from '../../components/UEditor/index.vue'
     import { fetchChapterDetail } from 'api/article_table';
 
     export default{
       name: 'app-container',
-      components: { Tinymce },
+      // components: { Tinymce },
+      components: {UE},
       data() {
         const validateRequire = (rule, value, callback) => {
           if (value === '') {
@@ -106,6 +111,14 @@
           uptoken: '',
           files:[],
           imgInfo: [],
+          ue: '',
+          uedata: '',
+          xirudata:'',
+          defaultMsg: '',
+          config:{
+            initialFrameWidth: null,
+            initialFrameHeight: 350
+          },
           list:{
             bookid: 0,
             indexid: 0,
@@ -130,30 +143,44 @@
           }
         };
       },
+        // mounted() { 
+        //     this.ue = UE.getEditor('editor',{ 
+        //     BaseUrl: '', 
+        //     UEDITOR_HOME_URL: 'static/utf8-jsp/', 
+        //   }); 
+
+        // }, 
       methods: {
         OnSubmit: function() {
           var self = this;
           self.id = Number.parseInt(this.$route.query.id);
           console.log(self.id);
-          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
-            id: self.id,
-            indexId: self.postForm.indexid,
-            title: self.postForm.title,
-            cover: self.IMGURL,
-            content: self.postForm.content
-          })
-              .then(function(res) {
-                var data = res.data
-                if (data.code === 0) {
-                  console.log(data);
-                  self.$message('更新成功')
-                }
-              })
-              .catch(function(err) {
-                console.log(err)
-                self.$message('更新失败')
-              });
-          this.goListDetail(self.postForm.bookid);
+          this.postForm.content = this.$refs.ue.getUEContent();
+            this.$notify({
+              title: '获取成功',
+              message: this.postForm.content,
+              type: 'success'
+          });
+          console.log(this.postForm.content);
+          // this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
+          //   id: self.id,
+          //   indexId: self.postForm.indexid,
+          //   title: self.postForm.title,
+          //   cover: self.IMGURL,
+          //   content: self.postForm.content
+          // })
+          //     .then(function(res) {
+          //       var data = res.data
+          //       if (data.code === 0) {
+          //         console.log(data);
+          //         self.$message('更新成功')
+          //       }
+          //     })
+          //     .catch(function(err) {
+          //       console.log(err)
+          //       self.$message('更新失败')
+          //     });
+          // this.goListDetail(self.postForm.bookid);
         },
 
         upload: function() {
@@ -239,6 +266,16 @@
         goListDetail: function(val) {
           this.$router.push('/booklib/ListDetail?id=' + val);
         },
+        // xieru: function() {
+        //   // UE.getEditor('editor').setContent(this.xirudata); 
+        //   let content = this.$refs.ue.getUEContent();
+        //   this.$notify({
+        //     title: '获取成功, 可在控制台查看!',
+        //     message: content,
+        //     type: 'success'
+        //   });
+        //   console.log(content);
+        // },
         getDetail: function() {
           var self = this;
           self.id = Number.parseInt(this.$route.query.id);
@@ -247,16 +284,17 @@
             if (response.data.code === 0) {
               console.log(self.list);
               self.postForm.bookid = self.list.bookId;
-              self.postForm.content = self.list.content;
               self.postForm.title = self.list.title;
+              self.defaultMsg = self.list.content;
               self.postForm.indexid = self.list.indexId;
               self.IMGURL = self.list.cover;
+              // this.$refs.ue.setContent(self.defaultMsg);
             }
           })
-
         }
       },
       created: function() {
+
         this.getuptoken();
         this.getDetail();
       }

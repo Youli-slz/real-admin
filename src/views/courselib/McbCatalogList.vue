@@ -86,7 +86,8 @@ export default {
             taskT: null,
             courseid: null,
             monthcourseid: null,
-            bookid: null
+            bookid: null,
+            lastIndex: null
 
         }
     },
@@ -129,6 +130,12 @@ export default {
                         this.alllist[i].money
                         this.courselist.push(this.alllist[i]);
                     }
+                    for(var i= 0; i< this.alllist.length; i++){
+                        if(i == this.alllist.length-1){
+                            this.lastIndex = this.alllist[i].indexId;
+                            console.log(this.lastIndex);
+                        }
+                    }
                 }
                 else{
                     this.listLoading = true;
@@ -139,7 +146,7 @@ export default {
             this.$router.push('/courselib/McbcChapterList?id=' + val.id+ '&bookid='+ this.bookid);
         },
         goAdd: function() {
-            this.$router.push({name:'添加月份书籍目录', params: {courseid: this.courseid, monthcourseid: this.monthcourseid,bookid: this.bookid}});
+            this.$router.push({name:'添加月份书籍目录', params: {courseid: this.courseid, monthcourseid: this.monthcourseid,bookid: this.bookid,indexid: this.lastIndex}});
         },
         handleSizeChange: function() {
             const self= this;

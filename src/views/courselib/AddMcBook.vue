@@ -66,6 +66,9 @@
           //var courseid = Number.parseInt(this.$route.query.courseid); 
           this.$router.push('/courselib/McBookList?courseid='+ this.McBook.courseId + '&monthcourseid='+ this.McBook.monthCourseId);
        }
+      },
+      created(){
+        this.McBook.indexId = Number.parseInt(this.$route.query.indexid) + 1;
       }
     }
 </script>

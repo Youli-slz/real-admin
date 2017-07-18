@@ -77,7 +77,8 @@ export default {
             currentPage:1,
             courseId: null,
             monthCourseId: null,
-            bookId: null
+            bookId: null,
+            lastIndex: null
 
         }
     },
@@ -118,6 +119,13 @@ export default {
                     for (var i = (this.currentPage -1) * this.pagesize; i < currentSize; i++) {
                         this.courselist.push(this.alllist[i]);
                     }
+                    for(var i= 0; i< this.alllist.length; i++){
+                        if(i == this.alllist.length-1){
+                            this.lastIndex = this.alllist[i].indexId;
+                            console.log(this.lastIndex);
+                        }
+                    }
+
                 }
                 else {
                     this.listLoading = true;

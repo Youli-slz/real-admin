@@ -85,7 +85,8 @@ export default {
             courselist: [],
             pagesize: 100,    // 每页有一百列
             totalpage:1,
-            currentPage:1
+            currentPage:1,
+            lastIndex: null
         }
     },
     filters:{
@@ -126,6 +127,12 @@ export default {
                         this.alllist[i].money
                         this.courselist.push(this.alllist[i]);
                     }
+                    for(var i= 0; i< this.alllist.length; i++){
+                        if(i == this.alllist.length-1){
+                            this.lastIndex = this.alllist[i].indexId;
+                            console.log(this.lastIndex);
+                        }
+                    }
                 }
                 else {
                     this.listLoading = true;
@@ -138,7 +145,7 @@ export default {
         },
         goAdd: function() {
             var courseid = Number.parseInt(this.$route.query.courseid);
-            this.$router.push('/courselib/AddMCourse?courseid='+courseid);
+            this.$router.push('/courselib/AddMCourse?courseid='+courseid + '&indexid=' + this.lastIndex);
         },
         handleSizeChange: function() {
             const self= this;
