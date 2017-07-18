@@ -40,7 +40,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" align="center" label="简介">
+      <el-table-column min-width="300px"  label="简介">
         <template scope="scope">
           <el-input  type="textarea" :rows="3" v-show="scope.row.edit" size="small" v-model="scope.row.abstract"></el-input>
           <span v-show="!scope.row.edit">{{ scope.row.abstract }}</span>
