@@ -51,7 +51,8 @@
         pagesize: 100,
         totalpage: 8,
         currentPage: 1,
-        list:[]
+        list:[],
+        lastIndex:0
       }
     },
     methods: {
@@ -77,6 +78,12 @@
             for (var i = (this.currentPage - 1) * this.pagesize; i < currentSize; i++) {
               this.cataloglist.push(this.article[i]);
             }
+            for(var i=0; i< this.article.length; i++){
+              if(i == this.article.length - 1){
+                this.lastIndex = this.article[i].indexId;
+                console.log(this.lastIndex);
+              }
+            }
           }
         })
       },
@@ -98,7 +105,8 @@
       },
       goAddSection() {
         this.id = Number.parseInt(this.$route.query.id)
-        this.$router.push('/booklib/AddSection?id=' + this.id)
+        console.log(this.lastIndex)
+        this.$router.push('/booklib/AddSection?id=' + this.id + '&indexid=' + this.lastIndex)
       },
         confirm(val) {
           var self = this

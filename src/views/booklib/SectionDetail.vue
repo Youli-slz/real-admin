@@ -32,6 +32,12 @@
       </div>
     </div>
     <div style="margin-bottom: 20px;">
+    <label>章节序号:</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+    <el-input type="text" v-model="postForm.indexid"></el-input>
+    </div>
+    <div style="margin-bottom: 20px;">
     <label>章节:</label>
     </div>
     <div style="margin-bottom: 20px;">
@@ -155,32 +161,32 @@
           var self = this;
           self.id = Number.parseInt(this.$route.query.id);
           console.log(self.id);
-          this.postForm.content = this.$refs.ue.getUEContent();
+          self.postForm.content = this.$refs.ue.getUEContent();
             this.$notify({
               title: '获取成功',
               message: this.postForm.content,
               type: 'success'
           });
-          console.log(this.postForm.content);
-          // this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
-          //   id: self.id,
-          //   indexId: self.postForm.indexid,
-          //   title: self.postForm.title,
-          //   cover: self.IMGURL,
-          //   content: self.postForm.content
-          // })
-          //     .then(function(res) {
-          //       var data = res.data
-          //       if (data.code === 0) {
-          //         console.log(data);
-          //         self.$message('更新成功')
-          //       }
-          //     })
-          //     .catch(function(err) {
-          //       console.log(err)
-          //       self.$message('更新失败')
-          //     });
-          // this.goListDetail(self.postForm.bookid);
+          console.log(self.postForm.indexid);
+          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
+            id: self.id,
+            indexId: Number.parseInt(self.postForm.indexid),
+            title: self.postForm.title,
+            cover: self.IMGURL,
+            content: self.postForm.content
+          })
+              .then(function(res) {
+                var data = res.data
+                if (data.code === 0) {
+                  console.log(data);
+                  self.$message('更新成功')
+                }
+              })
+              .catch(function(err) {
+                console.log(err)
+                self.$message('更新失败')
+              });
+          this.goListDetail(self.postForm.bookid);
         },
 
         upload: function() {

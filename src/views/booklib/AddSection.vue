@@ -54,7 +54,7 @@
     </div>
     <div style="margin-bottom: 20px;">
       <div class="editor-container">
-        <Tinymce :height=400 ref="editor" v-model="postForm.content"></Tinymce>
+        <UE :defaultMsg="defaultMsg" :config="config" ref="ue"></UE>
       </div>
       </div>
       <div>
@@ -64,11 +64,11 @@
 </template>
 
 <script>
-    import Tinymce from 'components/Tinymce'
+    import UE from '../../components/UEditor/index.vue'
 
     export default{
       name: 'add-section',
-      components: { Tinymce },
+      components: { UE },
       data() {
         const validateRequire = (rule, value, callback) => {
           if (value === '') {
@@ -116,6 +116,11 @@
           files: [],
           imgInfo: [],
           IMGURL:'',
+          defaultMsg: '',
+          config:{
+            initialFrameWidth: null,
+            initialFrameHeight: 350
+          },
           fetchSuccess: true,
           loading: false,
           userLIstOptions: [],
@@ -135,6 +140,12 @@
       methods: {
         onSubmit: function() {
           var self = this;
+          self.postForm.content = this.$refs.ue.getUEContent();
+            this.$notify({
+              title: '获取成功',
+              message: this.postForm.content,
+              type: 'success'
+          });
           self.postForm.bookid = Number.parseInt(this.$route.query.id)
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
             bookId: self.postForm.bookid,
@@ -254,6 +265,7 @@
       },
       created: function() {
         this.getuptoken();
+        this.postForm.indexid = Number.parseInt(this.$route.query.indexid) + 1;
       }
     }
 </script>
