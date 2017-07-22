@@ -51,7 +51,7 @@
                 <el-table-column width="250" align="center" label="操作">
                     <template scope="scope">
                         <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row)' size="small" icon="search">详情</el-button>
-                        <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small"  icon="edit">更新</el-button>
+                        <el-button type="primary" v-show="!scope.row.edit" @click='tasktime(scope.row.taskTime),scope.row.edit=true' size="small"  icon="edit">更新</el-button>
                         <el-button type="primary" v-show="scope.row.edit" @click='updateCourse(scope.row),scope.row.edit=false' size="small" icon="check">确定</el-button>
                         <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false' size="small" icon="check">取消</el-button>
                         <el-button type="primary" v-show="!scope.row.edit" @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
@@ -87,7 +87,8 @@ export default {
             courseid: null,
             monthcourseid: null,
             bookid: null,
-            lastIndex: null
+            lastIndex: null,
+            oldTaskTime:null
 
         }
     },
@@ -108,6 +109,10 @@ export default {
         }
     },
     methods: {
+        tasktime:function(val){
+            this.oldTaskTime = val;
+            console.log(this.oldTaskTime)
+        },
         getList: function() {
             this.courseid = Number.parseInt(this.$route.params.courseid);
             this.monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
@@ -211,8 +216,13 @@ export default {
         },
        updateCourse: function(val) {
            var self = this;
-           var Stime = self.timeChange(self.NewTaskTime);
-            self.taskT = new Date(Stime).getTime()/1000;
+           if(self.NewTaskTime == null){
+               self.taskT = this.oldTaskTime;
+           }
+           else{
+                var Stime = self.timeChange(self.NewTaskTime);
+                self.taskT = new Date(Stime).getTime()/1000;
+            }
            this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatemcbcatalog',{
                id: val.id,
                courseId: Number.parseInt(val.courseId),

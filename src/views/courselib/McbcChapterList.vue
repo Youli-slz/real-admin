@@ -37,7 +37,8 @@
 
                 <el-table-column min-width="200" align="center" label="创建时间">
                     <template scope="scope">
-                        <span>{{ scope.row.createdAt | timeStemp}}</span>
+                        <span v-if="scope.row.createdAt != 0">{{ scope.row.createdAt | timeStemp}}</span>
+                        <span v-if="scope.row.createdAt == 0">{{ scope.row.createdAt }}</span>
                     </template>
                 </el-table-column>
 
