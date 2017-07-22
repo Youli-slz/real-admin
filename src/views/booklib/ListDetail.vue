@@ -104,6 +104,9 @@
         }
       },
       goAddSection() {
+        if(this.lastIndex == null){
+          this.lastIndex = 0;
+        }
         this.id = Number.parseInt(this.$route.query.id)
         console.log(this.lastIndex)
         this.$router.push('/booklib/AddSection?id=' + this.id + '&indexid=' + this.lastIndex)

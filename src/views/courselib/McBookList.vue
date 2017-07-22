@@ -131,6 +131,9 @@ export default {
             this.$router.push({name:'月份书籍目录', params: {courseid: val.courseId, monthcourseid: val.monthCourseId,bookid: val.bookId}});
         },
         goAdd: function() {
+            if(this.lastIndex == null){
+                this.lastIndex = 0;
+            }
             var courseid = Number.parseInt(this.$route.query.courseid);
             var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
             this.$router.push('/courselib/AddMcBook?courseid='+courseid + '&monthcourseid='+ monthcourseid + '&indexid=' + this.lastIndex);

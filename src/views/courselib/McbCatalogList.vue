@@ -113,10 +113,10 @@ export default {
             this.monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
             this.bookid = Number.parseInt(this.$route.params.bookid);
             fetchmcbcataloglist(this.courseid, this.monthcourseid, this.bookid).then(response => {
-                this.list = response.data.data.map(v => {
-                    v.edit= false;
+                this.list = response.data.data.map(v =>{
+                    v.edit = false;
                     return v;
-                });
+                })
                 if (response.data.code === 0) {
                     this.listLoading = false;
                     this.alllist = this.list;
@@ -146,6 +146,10 @@ export default {
             this.$router.push('/courselib/McbcChapterList?id=' + val.id+ '&bookid='+ this.bookid);
         },
         goAdd: function() {
+            if(this.lastIndex == null){
+                this.lastIndex = 0;
+            }
+            console.log(this.lastIndex);
             this.$router.push({name:'添加月份书籍目录', params: {courseid: this.courseid, monthcourseid: this.monthcourseid,bookid: this.bookid,indexid: this.lastIndex}});
         },
         handleSizeChange: function() {

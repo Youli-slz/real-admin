@@ -144,6 +144,9 @@ export default {
             this.$router.push('/courselib/McBookList?courseid='+courseid + '&monthcourseid='+val);
         },
         goAdd: function() {
+            if(this.lastIndex == null){
+                this.lastIndex = 0;
+            }
             var courseid = Number.parseInt(this.$route.query.courseid);
             this.$router.push('/courselib/AddMCourse?courseid='+courseid + '&indexid=' + this.lastIndex);
         },
