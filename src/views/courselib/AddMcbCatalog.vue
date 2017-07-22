@@ -73,7 +73,7 @@
             courseId: self.Catalog.courseId,
             monthCourseId: self.Catalog.monthCourseId,
             bookId: self.Catalog.bookId,
-            indexId: Number.parseInt(self.Catalog.indexId),
+            indexId: Number.parseInt(this.indexId),
             title: self.Catalog.title,
             taskTime: self.taskT
           })
