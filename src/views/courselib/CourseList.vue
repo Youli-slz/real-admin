@@ -58,7 +58,7 @@
                 <el-table-column width="250" align="center" label="操作">
                     <template scope="scope">
                         <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row.id)' size="small" icon="search">详情</el-button>
-                        <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small"  icon="edit">更新</el-button>
+                        <el-button type="primary" v-show="!scope.row.edit" @click='tasktime(scope.row.startTime,scope.row.endTime),scope.row.edit=true' size="small"  icon="edit">更新</el-button>
                         <el-button type="primary" v-show="scope.row.edit" @click='updateCourse(scope.row),scope.row.edit=false' size="small" icon="check">确定</el-button>
                         <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false' size="small" icon="check">取消</el-button>
                         <el-button type="primary" v-show="!scope.row.edit" @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
@@ -95,7 +95,9 @@ export default {
             NewStartTime: null,
             NewEndTime: null,
             startT: null,
-            endT : null
+            endT : null,
+            oldStartTime: null,
+            oldendTime: null
 
         }
     },
@@ -106,6 +108,10 @@ export default {
         }
     },
     methods: {
+        tasktime: function(start,end) {
+            this.oldStartTime = start;
+            this.oldendTime = end;
+        },
         getList: function() {
             this.listLoading = true;
             fetchCourseList().then(response => {
@@ -216,7 +222,7 @@ export default {
           // 默认 false，key为文件名。若开启该选项，SDK会为每个文件自动生成key（文件名）
           save_key: true,
           // 默认 false。若在服务端生成uptoken的上传策略中指定了 `sava_key`，则开启，SDK在前端将不对key进行任何处理
-          domain: 'http://oe3slowqt.bkt.clouddn.com/',
+          domain: 'http://7xld1x.com1.z0.glb.clouddn.com/',
           //bucket 域名，下载资源时用到，**必需**
           container: val, //上传区域DOM ID，默认是browser_button的父元素，
           max_file_size: '5mb', //最大文件体积限制
@@ -240,7 +246,7 @@ export default {
             'FileUploaded': function(up, file, info) {
               var domain = up.getOption('domain');
               var res = JSON.parse(info);
-              var urlImg = 'http://oe3slowqt.bkt.clouddn.com/' + res.key;
+              var urlImg = 'http://7xld1x.com1.z0.glb.clouddn.com/' + res.key;
               // console.log("img="+urlImg);
               file.imgUrl = urlImg;
               console.log(urlImg);
@@ -270,10 +276,18 @@ export default {
         },
        updateCourse: function(val) {
            var self = this;
-           var Stime = self.timeChange(self.NewStartTime);
-            var Etime = self.timeChange(self.NewEndTime);
-            self.startT = new Date(Stime).getTime()/1000;
-            self.endT = new Date(Etime).getTime()/1000;
+           if(self.NewStartTime == null){
+             self.startT = this.oldStartTime;
+             self.endT =  this.oldendTime;
+           }
+           else{
+             var Stime = self.timeChange(self.NewStartTime);
+             var Etime = self.timeChange(self.NewEndTime);
+
+                self.startT = new Date(Stime).getTime()/1000;
+                self.endT = new Date(Etime).getTime()/1000;
+           }
+
            if(self.CourseCover != ""){
                self.courseimg = self.CourseCover;
            }

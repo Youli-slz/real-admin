@@ -100,7 +100,7 @@
               uptoken: self.uptoken,
               container: 'btnwrap',
               save_key: true,
-              domain: 'http://oe3slowqt.bkt.clouddn.com/',
+              domain: 'http://7xld1x.com1.z0.glb.clouddn.com/',
               max_file_size: '5mb',
               flash_swf_url: 'qiniu/Moxie.swf',
               max_retries: 3,
@@ -121,7 +121,7 @@
                console.log(up);
             var domain = up.getOption('domain');
             var res = JSON.parse(info);
-            var urlImg = 'http://oe3slowqt.bkt.clouddn.com/' + res.key;
+            var urlImg = 'http://7xld1x.com1.z0.glb.clouddn.com/' + res.key;
             self.value = urlImg
             this.handleImageScucess(self.value)
             },
