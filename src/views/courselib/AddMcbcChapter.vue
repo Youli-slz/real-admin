@@ -191,7 +191,9 @@ export default {
           this.$router.push('/courselib/McbcChapterList?id='+ this.monthcoursecatalogid + '&bookid='+ this.bookid);
        },
        goback: function() {
-          this.$router.push('/courselib/McbcChapterList?id=' + this.monthcoursecatalogid+ '&bookid='+ this.bookid);
+           var courseid = Number.parseInt(this.$route.query.courseid);
+           var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
+          this.$router.push('/courselib/McbcChapterList?id=' + this.monthcoursecatalogid+ '&bookid='+ this.bookid +'&courseid='+courseid + '&monthcourseid='+ monthcourseid);
        },
        getuptoken:function() {
             var self = this;

@@ -47,3 +47,9 @@
     }
   }
 </script>
+
+<style>
+.edui-default .edui-editor-iframeholder {    
+     background-color:transparent; 
+ }  
+</style>

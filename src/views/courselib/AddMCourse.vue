@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-
     <div style="margin-bottom: 20px;">
       <label>课程章节序号:</label>
       </div>

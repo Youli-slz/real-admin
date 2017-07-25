@@ -1,8 +1,14 @@
 <template>
     <div class="app-container calerndar-list-container">
-        <div style="width: 400px;padding: 10px">
-            <el-button type="primary" size="small" @click="goAdd()" style="margin-buttom: 10px">新建课程月份书籍</el-button>
-        </div>
+        <el-row :gutter="20">
+            <el-col :xs="8" :sm="6" :md="4" :lg="3">
+               <el-button type="primary" @click="goAdd()" style="margin-buttom: 10px">新建课程月份书籍</el-button>
+            </el-col>
+            <el-col :xs="8" :sm="6" :md="4" :lg="3">
+                <el-button type="primary"  @click="goback()">返回</el-button>
+            </el-col>
+        </el-row>
+        <br/>
         <template>
             <el-table :data="courselist" v-loading.body = "listLoading" border fit highlight-current-row style="width:100%">
                 <el-table-column align="center" label="序号" width="80">
@@ -137,6 +143,10 @@ export default {
             var courseid = Number.parseInt(this.$route.query.courseid);
             var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
             this.$router.push('/courselib/AddMcBook?courseid='+courseid + '&monthcourseid='+ monthcourseid + '&indexid=' + this.lastIndex);
+        },
+        goback: function() {
+            var courseid = Number.parseInt(this.$route.query.courseid);
+            this.$router.push('/courselib/CourseDetailList?courseid=' + courseid);
         },
         handleSizeChange: function() {
             const self= this;
