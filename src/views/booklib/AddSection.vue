@@ -117,6 +117,7 @@
           imgInfo: [],
           IMGURL:'',
           defaultMsg: '',
+          ss:[],
           config:{
             initialFrameWidth: null,
             initialFrameHeight: 350
@@ -146,6 +147,11 @@
               message: this.postForm.content,
               type: 'success'
           });
+
+          this.ss = self.postForm.content.split('background-color: rgb(255, 255, 255);');
+          console.log(this.ss);
+          self.postForm.content = this.ss.join('');
+          console.log(self.postForm.content);
           self.postForm.bookid = Number.parseInt(this.$route.query.id)
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
             bookId: self.postForm.bookid,

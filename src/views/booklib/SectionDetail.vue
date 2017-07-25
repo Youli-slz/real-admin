@@ -121,6 +121,9 @@
           uedata: '',
           xirudata:'',
           defaultMsg: '',
+          ss:[],
+
+
           config:{
             initialFrameWidth: null,
             initialFrameHeight: 350
@@ -167,7 +170,11 @@
               message: this.postForm.content,
               type: 'success'
           });
-          console.log(self.postForm.indexid);
+          // console.log(self.postForm.content);
+          this.ss = self.postForm.content.split('background-color: rgb(255, 255, 255);');
+          console.log(this.ss);
+          self.postForm.content = this.ss.join('');
+          console.log(self.postForm.content);
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
             id: self.id,
             indexId: Number.parseInt(self.postForm.indexid),
