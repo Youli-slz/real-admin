@@ -15,11 +15,11 @@
                           autoComplete="on" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+                <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin(loginForm)">
                     登录
                 </el-button>
             </el-form-item>
-            <div class='tips'>账号为:admin 密码随便3位</div>
+            <!-- <div class='tips'>账号为:admin 密码随便3位</div> -->
         </el-form>
     </div>
 </template>
@@ -51,6 +51,10 @@
             email: 'admin',
             password: ''
           },
+          RealtechLoginSearch:{
+            username: '',
+            password: ''
+          },
           loginRules: {     /// 登陆规则 ， 校验账号密码
             email: [
                 { required: true, trigger: 'blur' }   /// validator: validatePass
@@ -64,23 +68,54 @@
         }
       },
       methods: {
-        handleLogin() {
+        handleLogin: function(loginForm) {
+          // this.$refs.loginForm.validate(valid => {
+          //   if (valid) {
+          //     this.loading = true;
+          //     this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
+          //       this.loading = false;
+          //       this.$router.push({ path: '/booklib/BookList' });      /// 登陆成功后，重定向到书籍列表页面
+          //       // this.showDialog = true;
+          //     }).catch(err => {
+          //       this.$message.error(err);
+          //       this.loading = false;
+          //     });
+          //   } else {
+          //     console.log('error submit!!');
+          //     return false;
+          //   }
+          // });
+          // 调用后台接口的登录方法
+          var self = this;
+          self.RealtechLoginSearch.username = self.loginForm.email;
+          self.RealtechLoginSearch.password = self.loginForm.password;
           this.$refs.loginForm.validate(valid => {
-            if (valid) {
-              this.loading = true;
-              this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
-                this.loading = false;
-                this.$router.push({ path: '/booklib/BookList' });      /// 登陆成功后，重定向到书籍列表页面
-                // this.showDialog = true;
-              }).catch(err => {
-                this.$message.error(err);
-                this.loading = false;
-              });
-            } else {
+            if(valid) {
+              self.$http.post('http://wxmp.gatao.cn/realtech/login',{RealtechLoginSearch : self.RealtechLoginSearch})
+                  .then((response) => {
+                    var data = response.data;
+                    if(data.code == 0){
+                      self.setCookie("token", data.msg.token, 60*60*30);
+                      this.$router.push('/booklib/BookList');
+                    }
+                    else{
+                      alert(data.msg);
+                    }
+                    console.log(data);
+                  },(response) =>{
+                    console.log(response);
+                  });
+            }else{
               console.log('error submit!!');
               return false;
             }
           });
+        },
+        setCookie: function(cname, cvalue, exdays){
+          var expires = "expires=" + exdays;
+          console.info(cname + "=" + cvalue + ";" + exdays);
+          document.cookie = cname + "=" + cvalue + ";" + expires;
+          console.info(document.cookie);
         },
         afterQRScan() {
           // const hash = window.location.hash.slice(1);

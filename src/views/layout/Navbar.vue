@@ -60,10 +60,28 @@
         toggleSideBar() {
           this.$store.dispatch('ToggleSideBar')
         },
+        getCookie: function(name){
+            var arr,reg = new RegExp("(^| )" + name+"=([^;]*)(;|$)");
+
+            if(arr=document.cookie.match(reg)){
+                return unescape(arr[2]);
+            }
+            else{
+                return null;
+            }
+        },
         logout() {
-          this.$store.dispatch('LogOut').then(() => {
-            location.reload();// 为了重新实例化vue-router对象 避免bug
-          });
+          var self = this;
+          var ca = self.getCookie('token');
+          this.$http.get('http://wxmp.gatao.cn/realtech/logout?token='+ca)
+              .then((response) => {
+                  var data = response.data;
+                  if(data.code == 0){
+                      self.$router.push("/");
+                  }
+              },(response) =>{
+                  console.logg(response);
+              });
         }
       }
     }
