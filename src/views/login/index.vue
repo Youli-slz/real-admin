@@ -11,7 +11,7 @@
             </el-form-item>
             <el-form-item prop="password">
                 <span class="svg-container"><wscn-icon-svg icon-class="mima"/></span>
-                <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password"
+                <el-input name="password" type="password" @keyup.enter.native="handleLogin(loginForm)" v-model="loginForm.password"
                           autoComplete="on" placeholder="密码"></el-input>
             </el-form-item>
             <el-form-item>
