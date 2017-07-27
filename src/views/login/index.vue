@@ -95,8 +95,8 @@
                   .then((response) => {
                     var data = response.data;
                     if(data.code == 0){
-                      self.setCookie("token", data.msg.token, 60*60*30);
-                      this.$router.push('/booklib/BookList');
+                      this.setCookie("token", data.msg.token, 30*60*60);
+                      this.$router.push({ path: '/booklib/BookList' });
                     }
                     else{
                       alert(data.msg);
