@@ -53,6 +53,9 @@ const AddMcbCatalog = _import('courselib/AddMcbCatalog');
 const McbcChapterList = _import('courselib/McbcChapterList');
 const AddMcbcChapter = _import('courselib/AddMcbcChapter');
 
+/*comment*/
+const Comment = _import('comment/commentlist');
+
 Vue.use(Router);
 
  /**
@@ -108,6 +111,16 @@ export const constantRouterMap = [
       { path: 'AddMcbCatalog/:courseid/:monthcourseid/:bookid/:indexid', component: AddMcbCatalog, name: '添加月份书籍目录', hidden: true },
       { path: 'McbcChapterList', component: McbcChapterList, name: '月份书籍章节', hidden: true },
       { path: 'AddMcbcChapter', component: AddMcbcChapter, name: '添加课程书籍章节列表', hidden: true }
+    ]
+  },
+  {
+    path: '/comment',
+    component: Layout,
+    reirect: '/comment/commentlist',
+    icon: 'wujiaoxing',
+    noDropdown: true,
+    children: [
+      {path: 'commentlist', component: Comment, name: '评论'}
     ]
   }
 ]

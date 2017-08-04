@@ -47,7 +47,7 @@ function hasPermission(roles, permissionRoles) {
 
 // register global progress.
 const whiteList = ['/login', '/authredirect', '/reset', '/sendpwd'];// 不重定向白名单
-// router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {                  // 路由全局钩子
 //   NProgress.start(); // 开启Progress
 //   if (store.getters.token) { // 判断是否有token
 //     if (to.path === '/login') {
@@ -82,9 +82,9 @@ const whiteList = ['/login', '/authredirect', '/reset', '/sendpwd'];// 不重定
 // });
 
 
-router.afterEach(() => {
-  NProgress.done(); // 结束Progress
-});
+// router.afterEach(() => {
+//   NProgress.done(); // 结束Progress
+// });
 
 // 生产环境错误日志
 if (process.env === 'production') {

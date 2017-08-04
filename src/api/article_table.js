@@ -82,3 +82,16 @@ export function fetchmcbcChapterList(monthCourseCatalogId) {
     data
   })
 }
+
+export function fetchcommentlist(status,offset,num) {
+  const data = {
+    status,
+    offset,
+    num
+  };
+  return fetch({
+    url: '/reading/course/getallcomment',
+    method: 'post',
+    data
+  })
+}
