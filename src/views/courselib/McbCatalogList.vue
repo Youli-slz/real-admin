@@ -154,7 +154,8 @@ export default {
             })
         },
         goDetail: function( val ) {
-            this.$router.push('/courselib/McbcChapterList?id=' + val.id+ '&bookid='+ this.bookid + '&courseid=' + this.courseid + '&monthcourseid='+this.monthcourseid);
+            // this.$router.push('/courselib/McbcChapterList?id=' + val.id+ '&bookid='+ this.bookid + '&courseid=' + this.courseid + '&monthcourseid='+this.monthcourseid);
+            this.$router.push({name:'月份书籍章节', params:{id: val.id, bookid: this.bookid, courseid: this.courseid, monthcourseid: this.monthcourseid}})
         },
         goAdd: function() {
             if(this.lastIndex == null){
@@ -164,7 +165,8 @@ export default {
             this.$router.push({name:'添加月份书籍目录', params: {courseid: this.courseid, monthcourseid: this.monthcourseid,bookid: this.bookid,indexid: this.lastIndex}});
         },
         goback: function() {
-            this.$router.push('/courselib/McBookList?courseid='+ this.courseid + '&monthcourseid='+this.monthcourseid)
+            // this.$router.push('/courselib/McBookList?courseid='+ this.courseid + '&monthcourseid='+this.monthcourseid)
+            this.$router.push({name:'月份书籍列表', params: {courseid: this.courseid, monthcourseid: this.monthcourseid}});
         },
         handleSizeChange: function() {
             const self= this;

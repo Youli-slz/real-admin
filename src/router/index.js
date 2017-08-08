@@ -88,10 +88,10 @@ export const constantRouterMap = [
     noDropdown: true,
     children: [
       { path: 'BookList', component: BookList, name: '书籍' },
-      { path: 'ListDetail', component: BListDetail, name: '书籍详情列表', hidden: true },
+      { path: 'ListDetail/:id', component: BListDetail, name: '书籍详情列表', hidden: true },
       { path: 'Addbook', component: Addbook, name: '新增书籍', hidden: true },
-      { path: 'AddSection', component: AddSection, name: '新增章节', hidden: true },
-      { path: 'SectionDetail', component: SectionDetail, name: '章节详情', hidden: true }
+      { path: 'AddSection/:id/:indexid', component: AddSection, name: '新增章节', hidden: true },
+      { path: 'SectionDetail/:id', component: SectionDetail, name: '章节详情', hidden: true }
     ]
   },
   {
@@ -103,14 +103,14 @@ export const constantRouterMap = [
     children: [
       { path: 'CourseList', component: CourseList, name: '课程' },
       { path: 'AddCourse', component: AddCourse, name: '新增课程', hidden: true },
-      { path: 'CourseDetailList', component: CourseDetailList, name: '课程月份目录列表', hidden: true },
-      { path: 'AddMCourse', component: AddMCourse, name: '新增课程月份', hidden: true },
-      { path: 'McBookList', component: McBookList, name: '月份书籍列表', hidden: true },
-      { path: 'AddMcBook', component: AddMcBook, name: '添加月份书籍', hidden: true },
+      { path: 'CourseDetailList/:courseid', component: CourseDetailList, name: '课程月份目录列表', hidden: true },
+      { path: 'AddMCourse/:courseid/:indexid', component: AddMCourse, name: '新增课程月份', hidden: true },
+      { path: 'McBookList/:courseid/:monthcourseid', component: McBookList, name: '月份书籍列表', hidden: true },
+      { path: 'AddMcBook/:courseid/:monthcourseid/:indexid', component: AddMcBook, name: '添加月份书籍', hidden: true },
       { path: 'McbCatalogList/:courseid/:monthcourseid/:bookid', component: McbCatalogList, name: '月份书籍目录', hidden: true },
       { path: 'AddMcbCatalog/:courseid/:monthcourseid/:bookid/:indexid', component: AddMcbCatalog, name: '添加月份书籍目录', hidden: true },
-      { path: 'McbcChapterList', component: McbcChapterList, name: '月份书籍章节', hidden: true },
-      { path: 'AddMcbcChapter', component: AddMcbcChapter, name: '添加课程书籍章节列表', hidden: true }
+      { path: 'McbcChapterList/:id/:bookid/:courseid/:monthcourseid', component: McbcChapterList, name: '月份书籍章节', hidden: true },
+      { path: 'AddMcbcChapter/:monthcoursecatalogid/:bookid/:courseid/:monthcourseid', component: AddMcbcChapter, name: '添加课程书籍章节列表', hidden: true }
     ]
   },
   {

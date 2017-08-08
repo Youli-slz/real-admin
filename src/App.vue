@@ -25,7 +25,12 @@
                   .then(function(res){
                       var data = res.data;
                       if(data.code == 0){
-                          this.$router.push('/booklib/BookList');
+                          if(self.$route.path == "/" || self.$route.path == '/login'){
+                             this.$router.push('/booklib/BookList');
+                          }
+                          else {
+                              self.$router.push('');
+                          }
                       }
                       else{
                           self.$router.push('/');

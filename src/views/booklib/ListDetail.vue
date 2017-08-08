@@ -61,7 +61,7 @@
       //   console.log(this.id)
       // },
       getList() {
-        this.id = Number.parseInt(this.$route.query.id);
+        this.id = Number.parseInt(this.$route.params.id);
         fetchChapterList(this.id).then(response => {
           this.list = response.data.data.map(v => {
              v.edit = false;
@@ -107,9 +107,10 @@
         if(this.lastIndex == null){
           this.lastIndex = 0;
         }
-        this.id = Number.parseInt(this.$route.query.id)
+        this.id = Number.parseInt(this.$route.params.id)
         console.log(this.lastIndex)
-        this.$router.push('/booklib/AddSection?id=' + this.id + '&indexid=' + this.lastIndex)
+        // this.$router.push('/booklib/AddSection?id=' + this.id + '&indexid=' + this.lastIndex)
+        this.$router.push({name:'新增章节', params: {id: this.id, indexid: this.lastIndex}});
       },
         confirm(val) {
           var self = this
@@ -141,7 +142,8 @@
               })
         },
         goDetail: function(val) {
-          this.$router.push('/booklib/SectionDetail?id=' + val);
+          // this.$router.push('/booklib/SectionDetail?id=' + val);
+          this.$router.push({name:'章节详情', params: {id: val}});
         }
     },
     created() {

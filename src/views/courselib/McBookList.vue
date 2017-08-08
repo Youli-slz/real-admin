@@ -99,8 +99,8 @@ export default {
     methods: {
         getList: function() {
             // this.listLoading = false;
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            var monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
             console.log(courseid);
             console.log(monthcourseid);
             fetchmcbooklist(courseid,monthcourseid).then(response => {
@@ -140,13 +140,15 @@ export default {
             if(this.lastIndex == null){
                 this.lastIndex = 0;
             }
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
-            this.$router.push('/courselib/AddMcBook?courseid='+courseid + '&monthcourseid='+ monthcourseid + '&indexid=' + this.lastIndex);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            var monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
+            // this.$router.push('/courselib/AddMcBook?courseid='+courseid + '&monthcourseid='+ monthcourseid + '&indexid=' + this.lastIndex);
+            this.$router.push({name:'添加月份书籍', params: {courseid: courseid, monthcourseid: monthcourseid, indexid: this.lastIndex}});
         },
         goback: function() {
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            this.$router.push('/courselib/CourseDetailList?courseid=' + courseid);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            // this.$router.push('/courselib/CourseDetailList?courseid=' + courseid);
+            this.$router.push({name:'课程月份目录列表', params:{courseid: val}});
         },
         handleSizeChange: function() {
             const self= this;

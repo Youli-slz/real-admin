@@ -83,25 +83,31 @@
         /// 提交方法
         onSubmit: function() {
           var self = this;
-          self.Book.id = Number.parseInt(this.$route.query.id)         /// 从url上获取跳转过来的页面传过来的值
-          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createbook', {         /// 以下是向后台传输的数据
-            bookName: self.Book.bookName,
-            cover: self.Book.cover,
-            abstract: self.Book.abstract,
-            author: self.Book.author
-          })
-              .then(function(res) {
-                console.log(res.data)
-                var data = res.data;      /// 获取提交后返回的信息
-                if (data.code == 0) {
-                  self.$message('提交成功');
-                }
-              })
-              .catch(function(err) {
-                console.log(err)
-                self.$message('提交失败');
-              });
-          this.goBookList();
+          //self.Book.id = Number.parseInt(this.$route.query.id)         /// 从url上获取跳转过来的页面传过来的值
+          if (self.Book.bookName == '' || self.Book.abstract == null || self.Book.author == '' || self.Book.cover == '') {
+            this.$message("请填写完整信息");
+            return false;
+          }
+          else{
+            this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createbook', {         /// 以下是向后台传输的数据
+              bookName: self.Book.bookName,
+              cover: self.Book.cover,
+              abstract: self.Book.abstract,
+              author: self.Book.author
+            })
+                .then(function(res) {
+                  console.log(res.data)
+                  var data = res.data;      /// 获取提交后返回的信息
+                  if (data.code == 0) {
+                    self.$message('提交成功');
+                  }
+                })
+                .catch(function(err) {
+                  console.log(err)
+                  self.$message('提交失败');
+                });
+            this.goBookList();
+          }
         },
         goBookList: function(){                     /// 提交完成后跳转到列表页面 
           this.$router.push('/booklib/BookList');

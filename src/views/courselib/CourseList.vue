@@ -144,7 +144,8 @@ export default {
             })
         },
         goDetail: function( val ) {
-            this.$router.push('/courselib/CourseDetailList?courseid=' + val);
+            // this.$router.push('/courselib/CourseDetailList?courseid=' + val);
+            this.$router.push({name:'课程月份目录列表', params:{courseid: val}});
         },
         goAdd: function() {
             this.$router.push('/courselib/AddCourse');

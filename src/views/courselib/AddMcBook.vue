@@ -39,8 +39,8 @@
         /// 提交方法
         onSubmit: function() {
           var self = this;
-           self.McBook.courseId = Number.parseInt(this.$route.query.courseid);
-           self.McBook.monthCourseId = Number.parseInt(this.$route.query.monthcourseid);
+           self.McBook.courseId = Number.parseInt(this.$route.params.courseid);
+           self.McBook.monthCourseId = Number.parseInt(this.$route.params.monthcourseid);
 
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createmcbook', {         /// 以下是向后台传输的数据
             courseId: Number.parseInt(self.McBook.courseId),
@@ -64,11 +64,12 @@
         },
         goCourseList: function(){                    /// 提交完成后跳转到列表页面
           //var courseid = Number.parseInt(this.$route.query.courseid); 
-          this.$router.push('/courselib/McBookList?courseid='+ this.McBook.courseId + '&monthcourseid='+ this.McBook.monthCourseId);
+          // this.$router.push('/courselib/McBookList?courseid='+ this.McBook.courseId + '&monthcourseid='+ this.McBook.monthCourseId);
+             this.$router.push({name: '月份书籍列表', params: {courseid: this.McBook.courseId , monthcourseid: this.McBook.monthCourseId}});
        }
       },
       created(){
-        this.McBook.indexId = Number.parseInt(this.$route.query.indexid) + 1;
+        this.McBook.indexId = Number.parseInt(this.$route.params.indexid) + 1;
       }
     }
 </script>

@@ -52,7 +52,7 @@
             {{ option.text }}
         </option>
     </select>
-    <span>{{ Course.courseType }}</span>
+    <!-- <span>{{ Course.courseType }}</span> -->
     </div>
     <div style="margin-bottom: 20px;">
     <label>课程期数:</label>
@@ -94,13 +94,13 @@
         return {
           Course: {
             courseType: 1,
-            courseNum: 0,
+            courseNum: null,
             name: '',
             introduction: '',
             cover: '',
             startTime: null,
             endTime: null,
-            money: 0
+            money: null
         },
           options: [
             {text: "小鹿微课共读计划" , value:1},
@@ -145,7 +145,6 @@
             startTime: self.startT,
             endTime: self.endT,
             money: Number.parseInt(self.Course.money)
-
           })
               .then(function(res) {
                 console.log(res.data)
@@ -275,6 +274,7 @@ select {
     padding-bottom:3px;
     border-radius:3px;
     height: 38px;
+    width: 200px;
 }
 
 input {

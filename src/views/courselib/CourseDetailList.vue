@@ -114,7 +114,7 @@ export default {
     methods: {
         getList: function() {
             // this.listLoading = false;
-            var courseid = Number.parseInt(this.$route.query.courseid);
+            var courseid = Number.parseInt(this.$route.params.courseid);
             fetchmcourselist(courseid).then(response => {
                 this.list = response.data.data.map(v => {
                     v.edit= false;
@@ -146,15 +146,17 @@ export default {
             })
         },
         goMcbooklist: function( val ) {
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            this.$router.push('/courselib/McBookList?courseid='+courseid + '&monthcourseid='+val);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            // this.$router.push('/courselib/McBookList?courseid='+courseid + '&monthcourseid='+val);
+            this.$router.push({name: '月份书籍列表', params: {courseid: courseid, monthcourseid: val}});
         },
         goAdd: function() {
             if(this.lastIndex == null){
                 this.lastIndex = 0;
             }
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            this.$router.push('/courselib/AddMCourse?courseid='+courseid + '&indexid=' + this.lastIndex);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            // this.$router.push('/courselib/AddMCourse?courseid='+courseid + '&indexid=' + this.lastIndex);
+            this.$router.push({name:'新增课程月份', params: {courseid: courseid, indexid: this.lastIndex}});
         },
         goback:function() {
             this.$router.push('/courselib/CourseList');

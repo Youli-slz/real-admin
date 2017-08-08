@@ -162,7 +162,7 @@
       methods: {
         OnSubmit: function() {
           var self = this;
-          self.id = Number.parseInt(this.$route.query.id);
+          self.id = Number.parseInt(this.$route.params.id);
           console.log(self.id);
           self.postForm.content = this.$refs.ue.getUEContent();
             this.$notify({
@@ -277,7 +277,7 @@
           return value.substring(0,index)
         },
         goListDetail: function(val) {
-          this.$router.push('/booklib/ListDetail?id=' + val);
+          this.$router.push({name:'书籍详情列表', params: {id: val}});
         },
         // xieru: function() {
         //   // UE.getEditor('editor').setContent(this.xirudata); 
@@ -291,7 +291,7 @@
         // },
         getDetail: function() {
           var self = this;
-          self.id = Number.parseInt(this.$route.query.id);
+          self.id = Number.parseInt(this.$route.params.id);
           fetchChapterDetail(self.id).then(response => {
             self.list = response.data.data;
             if (response.data.code === 0) {

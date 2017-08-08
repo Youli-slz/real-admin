@@ -108,7 +108,7 @@ export default {
     methods: {
         getList: function() {
             // this.listLoading = false;
-            var monthCourseCatalogId = Number.parseInt(this.$route.query.id);
+            var monthCourseCatalogId = Number.parseInt(this.$route.params.id);
             fetchmcbcChapterList(monthCourseCatalogId).then(response => {
                 this.list = response.data.data.map(v => {
                     v.edit= false;
@@ -140,19 +140,20 @@ export default {
             })
         },
         goDetail: function( val ) {
-          this.$router.push('/booklib/SectionDetail?id=' + val);
+          this.$router.push({name:'章节详情', params: {id: val}});
         },
         goAdd: function() {
-            var monthcoursecatalogid = Number.parseInt(this.$route.query.id);
-            var bookid = Number.parseInt(this.$route.query.bookid);
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
-            this.$router.push('/courselib/AddMcbcChapter?monthcoursecatalogid='+ monthcoursecatalogid + '&bookid='+ bookid + '&courseid='+courseid + '&monthcourseid=' + monthcourseid);
+            var monthcoursecatalogid = Number.parseInt(this.$route.params.id);
+            var bookid = Number.parseInt(this.$route.params.bookid);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            var monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
+            // this.$router.push('/courselib/AddMcbcChapter?monthcoursecatalogid='+ monthcoursecatalogid + '&bookid='+ bookid + '&courseid='+courseid + '&monthcourseid=' + monthcourseid);
+            this.$router.push({name: '添加课程书籍章节列表', params:{monthcoursecatalogid: monthcoursecatalogid, bookid: bookid, courseid: courseid, monthcourseid: monthcourseid}});
         },
         goback: function() {
-            var courseid = Number.parseInt(this.$route.query.courseid);
-            var monthcourseid = Number.parseInt(this.$route.query.monthcourseid);
-            var bookid = Number.parseInt(this.$route.query.bookid);
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            var monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
+            var bookid = Number.parseInt(this.$route.params.bookid);
             this.$router.push({name:'月份书籍目录', params: {courseid: courseid, monthcourseid: monthcourseid, bookid: bookid}});
         },
         handleSizeChange: function() {

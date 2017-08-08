@@ -127,7 +127,8 @@
           })
         },
         goDetail: function(val) {                              /// 跳转到书本的章节列表页面，同时传一个书的id给章节列表页面
-          this.$router.push('/booklib/ListDetail?id=' + val);
+          // this.$router.push('/booklib/ListDetail?id=' + val);
+          this.$router.push({name:'书籍详情列表', params: {id: val}});
         },
         goAdd: function() {                                 /// 跳转到书本增加的页面
           this.$router.push('/booklib/AddBook');

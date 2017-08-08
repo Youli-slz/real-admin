@@ -61,7 +61,7 @@
         /// 提交方法
         onSubmit: function() {
           var self = this;
-          var courseid = Number.parseInt(this.$route.query.courseid);
+          var courseid = Number.parseInt(this.$route.params.courseid);
           console.log(self);
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createmcourse', {         /// 以下是向后台传输的数据
             courseId: Number.parseInt(courseid),
@@ -86,12 +86,13 @@
           this.goCourseList();
         },
         goCourseList: function(){                    /// 提交完成后跳转到列表页面
-          var courseid = Number.parseInt(this.$route.query.courseid); 
-          this.$router.push('/courselib/CourseDetailList?courseid='+courseid);
+          var courseid = Number.parseInt(this.$route.params.courseid); 
+          // this.$router.push('/courselib/CourseDetailList?courseid='+courseid);
+          this.$router.push({name:'课程月份目录列表', params:{courseid: courseid}});
        }
       },
       created(){
-        this.MCourse.indexId = Number.parseInt(this.$route.query.indexid) + 1;
+        this.MCourse.indexId = Number.parseInt(this.$route.params.indexid) + 1;
       }
     }
 </script>

@@ -141,40 +141,46 @@
       methods: {
         onSubmit: function() {
           var self = this;
-          self.postForm.content = this.$refs.ue.getUEContent();
-            this.$notify({
-              title: '获取成功',
-              message: this.postForm.content,
-              type: 'success'
-          });
-
-          this.ss = self.postForm.content.split('background-color: rgb(255, 255, 255);');
-          console.log(this.ss);
-          self.postForm.content = this.ss.join('');
-          console.log(self.postForm.content);
-          self.postForm.bookid = Number.parseInt(this.$route.query.id)
-          this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
-            bookId: self.postForm.bookid,
-            indexId: Number(self.postForm.indexid),
-            title: self.postForm.title,
-            cover: self.IMGURL,
-            content: self.postForm.content
-          })
-              .then(function(res) {
-                console.log(res.data)
-                var data = res.data;
-                if (data.code == 0) {
-                  self.$message('提交成功');
-                }
-              })
-              .catch(function(err) {
-                console.log(err)
-                self.$message('提交失败');
-              });
-          this.goListDetail(self.postForm.bookid);
+          if (self.postForm.title == '' || self.IMGURL == '' || self.postForm.content == '') {
+            this.$message('请填写完整信息');
+            return false;
+          }
+          else {
+            self.postForm.content = this.$refs.ue.getUEContent();
+              this.$notify({
+                title: '获取成功',
+                message: this.postForm.content,
+                type: 'success'
+            });
+            this.ss = self.postForm.content.split('background-color: rgb(255, 255, 255);');   // 去除Ueditor 生成带有css 样式的字符串中背景颜色样式。
+            console.log(this.ss);
+            self.postForm.content = this.ss.join('');
+            console.log(self.postForm.content);
+            self.postForm.bookid = Number.parseInt(this.$route.params.id)
+            this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
+              bookId: self.postForm.bookid,
+              indexId: Number(self.postForm.indexid),
+              title: self.postForm.title,
+              cover: self.IMGURL,
+              content: self.postForm.content
+            })
+                .then(function(res) {
+                  console.log(res.data)
+                  var data = res.data;
+                  if (data.code == 0) {
+                    self.$message('提交成功');
+                  }
+                })
+                .catch(function(err) {
+                  console.log(err)
+                  self.$message('提交失败');
+                });
+            this.goListDetail(self.postForm.bookid);
+          }
         },
         goListDetail: function(val){
-          this.$router.push('/booklib/ListDetail?id=' + val);
+          // this.$router.push('/booklib/ListDetail?id=' + val);
+          this.$router.push({name:'书籍详情列表', params: {id: val}});
        },
        upload: function() {
           var self = this;
@@ -271,7 +277,7 @@
       },
       created: function() {
         this.getuptoken();
-        this.postForm.indexid = Number.parseInt(this.$route.query.indexid) + 1;
+        this.postForm.indexid = Number.parseInt(this.$route.params.indexid) + 1;
       }
     }
 </script>
