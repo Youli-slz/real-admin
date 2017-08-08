@@ -141,11 +141,6 @@
       methods: {
         onSubmit: function() {
           var self = this;
-          if (self.postForm.title == '' || self.IMGURL == '' || self.postForm.content == '') {
-            this.$message('请填写完整信息');
-            return false;
-          }
-          else {
             self.postForm.content = this.$refs.ue.getUEContent();
               this.$notify({
                 title: '获取成功',
@@ -176,7 +171,6 @@
                   self.$message('提交失败');
                 });
             this.goListDetail(self.postForm.bookid);
-          }
         },
         goListDetail: function(val){
           // this.$router.push('/booklib/ListDetail?id=' + val);

@@ -84,11 +84,6 @@
         onSubmit: function() {
           var self = this;
           //self.Book.id = Number.parseInt(this.$route.query.id)         /// 从url上获取跳转过来的页面传过来的值
-          if (self.Book.bookName == '' || self.Book.abstract == null || self.Book.author == '' || self.Book.cover == '') {
-            this.$message("请填写完整信息");
-            return false;
-          }
-          else{
             this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createbook', {         /// 以下是向后台传输的数据
               bookName: self.Book.bookName,
               cover: self.Book.cover,
@@ -107,7 +102,6 @@
                   self.$message('提交失败');
                 });
             this.goBookList();
-          }
         },
         goBookList: function(){                     /// 提交完成后跳转到列表页面 
           this.$router.push('/booklib/BookList');

@@ -150,7 +150,6 @@
           const j = val === Math.ceil(self.alllist.length / self.pagesize) ? self.alllist.length : val * self.pagesize
           for (let i = (val - 1) * self.pagesize; i < j; i++) {
             self.booklist.push(self.alllist[i])
-            self.booklist
           }
         },
         confirm(val) {
