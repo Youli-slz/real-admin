@@ -92,7 +92,9 @@ export default {
       typeNum: null,
       channelNum: null,
       typeList:[],
-      channelList:[],
+      channelList:[{
+        id:0, desc: '全部渠道'
+      }],
       list:[],
       list2:[],
       list3:[],
@@ -135,14 +137,18 @@ export default {
         })
     },
     getchannellist: function(val) {
-      this.channelList = [];
+      this.channelList = [{id:0, desc: '全部渠道'}];
       this.showchannel = false;
       fetchcoursechannellist(val).then(response => {
         this.list2 = response.data.data.map(v => {
           return v;
         })
         if (response.data.code == 0) {
-          this.channelList = this.list2;
+          // this.channelList = this.list2;
+          for(var i=0; i<this.list2.length; i++) {
+            this.channelList.push(this.list2[i]);
+          }
+          console.log(this.channelList);
         }
         if (this.channelList.length > 0) {
           this.showchannel = true;
