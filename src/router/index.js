@@ -56,6 +56,10 @@ const AddMcbcChapter = _import('courselib/AddMcbcChapter');
 /*comment*/
 const Comment = _import('comment/commentlist');
 
+/* statistics  */
+const CourseType = _import('statistics/CourseTypeList');
+const StatisticsData = _import('statistics/StatisticsData');
+
 Vue.use(Router);
 
  /**
@@ -121,6 +125,17 @@ export const constantRouterMap = [
     noDropdown: true,
     children: [
       {path: 'commentlist', component: Comment, name: '评论'}
+    ]
+  },
+  {
+    path: '/statistics',
+    name: '课程统计',
+    component: Layout,
+    reirect: '/statistics/CourseTypeList',
+    icon: 'zujian',
+    children: [
+      {path: 'coursetypelist', component: CourseType, name: '课程类型列表'},
+      {path: 'statisticsdata', component: StatisticsData, name: '课程数据统计'}
     ]
   }
 ]

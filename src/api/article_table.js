@@ -95,3 +95,35 @@ export function fetchcommentlist(status,offset,num) {
     data
   })
 }
+
+export function fetchCourseType(){
+  return fetch({
+    url:'/reading/statistics/getcoursetypelist',
+    method: 'post'
+  });
+}
+
+export function fetchcoursechannellist(courseType) {
+  const data = {
+    courseType
+  };
+  return fetch({
+    url: '/reading/statistics/getcoursechannellist',
+    method: 'post',
+    data
+  })
+}
+
+export function fetchdatastatistics(courseType,source,startTime,endTime){
+  const data = {
+    courseType,
+    source,
+    startTime,
+    endTime
+  };
+  return fetch({
+    url: '/reading/statistics/getcoursedatastatistics',
+    method: 'post',
+    data
+  })
+}
