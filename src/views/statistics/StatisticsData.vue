@@ -54,7 +54,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="参加课程" width="200">
+        <el-table-column align="center" label="参加课程">
           <template scope="scope">
             <span>{{ scope.row.courseName }}</span>
           </template>
@@ -77,13 +77,22 @@
             <span>{{ formate(scope.row.paytime) }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column align="center" label="操作" width="200">
+          <template scope="scope">
+            <el-button @click="consfirm(scope.row.usercourseid)">退款</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </template>
   </div>
 </template>
 
 <script>
-import { fetchCourseType, fetchcoursechannellist, fetchdatastatistics} from 'api/article_table';
+import { fetchCourseType,
+         fetchcoursechannellist, 
+         fetchdatastatistics
+        } from 'api/article_table';
 
 export default {
   data() {
@@ -111,6 +120,38 @@ export default {
     }
   },
   methods:{ 
+    consfirm: function(val) {
+      var self = this;
+      this.$confirm("是否退款", '提示', {
+        bonfirmButtonText:'确定',
+        cancelButtonText:'取消',
+        type: 'warning'
+      }).then(() =>{
+        self.refund(val);
+      }).catch(() => {
+
+      });
+    },
+    refund: function(val){
+      var self = this;
+      this.$http.post('http://reading.dingjiantaoke.cn/reading/statistics/setusercourserefund',{
+        id:val
+      })
+        .then(function(res) {
+          var data = res.data;
+          if (data.code == 0) {
+            self.$message('退款成功');
+            this.getuserinfo();
+          }
+          else {
+            self.$message('退款失败');
+          }
+        })
+        .catch(function(err){
+          console.log(err);
+          self.$message('退款失败');
+        })
+    },
       formate:function(t){
         var d = new Date(t*1000);
         var year = d.getFullYear();
@@ -180,6 +221,7 @@ export default {
         for(var i in this.userinfo) {
           this.count = this.count + (this.userinfo[i].userCourse.money/100);
           this.richmanlist.push({
+            usercourseid: this.userinfo[i].userCourse.id,
             wechat: this.userinfo[i].user.name,
             avatarUrl: this.userinfo[i].user.avatarUrl,
             realName: this.userinfo[i].user.realName,
