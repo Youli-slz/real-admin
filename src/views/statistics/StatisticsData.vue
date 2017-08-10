@@ -233,6 +233,7 @@ export default {
         }
         console.log(this.richmanlist);
       })
+      this._init = 0;
       
     },
         fortime:function(t){
