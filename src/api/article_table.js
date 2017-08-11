@@ -127,3 +127,25 @@ export function fetchdatastatistics(courseType,source,startTime,endTime){
     data
   })
 }
+
+export function fetchCatalog(bookId){
+  const data = {
+    bookId
+  };
+  return fetch({
+    url: '/reading/coursemanager/getbookcatalogs',
+    method: 'post',
+    data
+  })
+}
+
+export function fetchcatachapter(bookCatalogid){
+  const data ={
+    bookCatalogid
+  };
+  return fetch({
+    url:'/reading/coursemanager/getbcchapters',
+    method:'post',
+    data
+  })
+}

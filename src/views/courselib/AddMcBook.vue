@@ -12,7 +12,15 @@
     <label>书籍id:</label>
     </div>
     <div style="margin-bottom: 20px;">
-    <el-input type="text" v-model="McBook.bookId"></el-input>
+    <!-- <el-input type="text" v-model="McBook.bookId"></el-input> -->
+    <el-select v-model="McBook.bookId" filterable  placeholder="请选择" >
+      <el-option
+      v-for="item in booklist"
+      :key="item.id"
+      :label="item.bookName"
+      :value="item.id">        
+      </el-option>
+    </el-select>
     </div>
 
       <div>
@@ -22,20 +30,31 @@
 </template>
 
 <script>
-
- export default{
-    name: 'add-section',
-      data() {
-        return {
+    import { fetchList } from 'api/article_table';
+export default {
+  data(){
+    return{
           McBook: {
             courseId:null,
             indexId: null,
             bookId: null,
             monthCourseId: null
-        }
-        }
-      },
+            },
+            booklist:[],
+            alllist: []
+    }
+  },
       methods: {
+        getList:function(){
+          var self = this;
+          fetchList().then(function(response){
+            var data = response.data;
+            if(data.code == 0){
+              self.booklist = data.data;
+            }
+            console.log(self.booklist);
+          })
+        },
         /// 提交方法
         onSubmit: function() {
           var self = this;
@@ -70,6 +89,7 @@
       },
       created(){
         this.McBook.indexId = Number.parseInt(this.$route.params.indexid) + 1;
+        this.getList();
       }
     }
 </script>

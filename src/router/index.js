@@ -40,6 +40,8 @@ const BListDetail = _import('booklib/ListDetail');
 const Addbook = _import('booklib/AddBook');
 const AddSection = _import('booklib/AddSection');
 const SectionDetail = _import('booklib/SectionDetail');
+const cataloglist = _import('booklib/CatalogList');
+const CatalogChapter = _import('booklib/CatalogChapterlist');
 
 /* courselib */
 const CourseList = _import('courselib/CourseList');
@@ -95,7 +97,9 @@ export const constantRouterMap = [
       { path: 'ListDetail/:id', component: BListDetail, name: '书籍详情列表', hidden: true },
       { path: 'Addbook', component: Addbook, name: '新增书籍', hidden: true },
       { path: 'AddSection/:id/:indexid', component: AddSection, name: '新增章节', hidden: true },
-      { path: 'SectionDetail/:id', component: SectionDetail, name: '章节详情', hidden: true }
+      { path: 'SectionDetail/:id', component: SectionDetail, name: '章节详情', hidden: true },
+      { path: 'CatalogList/:id', component: cataloglist, name: '书籍目录', hidden: true},
+      { path: 'CatalogChapter/:bookCatalogid/:bookid', component: CatalogChapter, name: '目录章节', hidden: true}
     ]
   },
   {

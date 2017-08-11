@@ -49,6 +49,7 @@
 
       <el-table-column align="center" label="编辑" width="320">
         <template scope="scope">
+          <el-button type="primary" v-show="!scope.row.edit" @click="goCatalog(scope.row.id)" size="small" icon="more">目录</el-button>
           <el-button  type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row.id)' size="small" icon="search">章节</el-button>
           <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small" icon="edit">更新</el-button>
           <el-button type="primary" v-show="scope.row.edit" @click='updateBook(scope.row),scope.row.edit=false'  size="small" icon="check">确定</el-button>
@@ -125,6 +126,9 @@
               }
             }
           })
+        },
+        goCatalog: function(val){
+          this.$router.push({name:'书籍目录', params: {id: val}});
         },
         goDetail: function(val) {                              /// 跳转到书本的章节列表页面，同时传一个书的id给章节列表页面
           // this.$router.push('/booklib/ListDetail?id=' + val);

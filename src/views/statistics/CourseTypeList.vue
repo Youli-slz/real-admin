@@ -124,11 +124,11 @@
                 </template>
             </el-table-column>
 
-            <!-- <el-table-column align="center" label="操作" >
+             <el-table-column align="center" label="操作" >
                 <template scope="scope">
-                    <el-button class="btnn" type="text">复制链接</el-button>
+                    <el-button type="primary" @click="confirm(scope.row.id,scope.row.courseType)">删除</el-button>
                 </template>
-            </el-table-column> -->
+            </el-table-column> 
         </el-table>
         </template>
         <div style="margin-bottom: 40px">
@@ -339,6 +339,39 @@ export default {
                 self.channellist.push(self.chaall[i]);
             }
         },
+        confirm:function(val,type){
+        var self = this;
+        console.log()
+        this.$confirm('是否删除?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(()=> {
+            self.delete(val,type);
+        }).catch(() => {
+        })
+        },
+        delete:function(val,type){
+            console.log(type);
+        var self= this;
+        this.$http.post('http://reading.dingjiantaoke.cn/reading/statistics/deletecoursechannel',{
+            id: val
+        })
+        .then(function(res){
+            var data = res.data;
+            if(data.code == 0){
+            self.$message('删除成功');
+            self.getchannellist(type);
+            }
+            else{
+            self.$message('删除失败');
+            }
+        })
+        .catch(function(err){
+            console.log(err);
+            self.$message('删除失败');
+        })
+        }
     },
     created() {
         this.getList();
