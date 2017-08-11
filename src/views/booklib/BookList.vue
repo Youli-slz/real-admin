@@ -49,12 +49,15 @@
 
       <el-table-column align="center" label="编辑" width="320">
         <template scope="scope">
-          <el-button type="primary" v-show="!scope.row.edit" @click="goCatalog(scope.row.id)" size="small" icon="more">目录</el-button>
-          <el-button  type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row.id)' size="small" icon="search">章节</el-button>
-          <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true' size="small" icon="edit">更新</el-button>
+          <div v-show="!scope.row.edit">
+            <el-button type="primary" @click="goCatalog(scope.row.id)" size="small" icon="more" style="margin-bottom: 2px;">目录</el-button><br/>
+            <el-button  type="primary"  @click='goDetail(scope.row.id)' size="small" icon="search" style="margin-bottom: 2px;">章节</el-button><br/>
+            <el-button type="primary"  @click='confirm(scope.row.id)' size="small" icon="close" style="margin-bottom: 2px;">删除</el-button><br/>
+            <el-button type="primary" @click='scope.row.edit=true' size="small" icon="edit">更新</el-button>
+          </div>
           <el-button type="primary" v-show="scope.row.edit" @click='updateBook(scope.row),scope.row.edit=false'  size="small" icon="check">确定</el-button>
           <el-button type="primary" v-show="scope.row.edit" @click='scope.row.edit=false'  size="small" icon="check">取消</el-button>          
-          <el-button type="primary"  v-show="!scope.row.edit" @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>
+
         </template>
       </el-table-column>
 
