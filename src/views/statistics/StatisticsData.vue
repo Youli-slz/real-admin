@@ -30,11 +30,6 @@
     </div>
     <template>
       <el-table :data="richmanlist" v-loading.body="listloading" border fit highlight-current-row style="width:100%">
-        <el-table-column align="center" label="序号" width="80">
-          <template scope="scope">
-            <span>{{ scope.$index }}</span>
-          </template>
-        </el-table-column>
 
         <el-table-column align="center" label="微信号" width="150">
           <template scope="scope">
@@ -51,6 +46,12 @@
         <el-table-column align="center" label="姓名" width="100">
           <template scope="scope">
             <span>{{ scope.row.realName }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" label="手机号" width="130">
+          <template scope="scope">
+            <span>{{ scope.row.phone }}</span>
           </template>
         </el-table-column>
 
@@ -235,6 +236,7 @@ export default {
             courseNum: this.userinfo[i].course.courseNum,
             money: this.userinfo[i].userCourse.money / 100,
             paytime: this.userinfo[i].userCourse.payTime,
+            phone: this.userinfo[i].user.phone,
             source: '无渠道'
           })
         }

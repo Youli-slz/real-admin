@@ -91,7 +91,7 @@
           self.RealtechLoginSearch.password = self.loginForm.password;
           this.$refs.loginForm.validate(valid => {
             if(valid) {
-              self.$http.post('http://wxmp.gatao.cn/realtech/login',{RealtechLoginSearch : self.RealtechLoginSearch})
+              self.$http.post('http://wxmp.gatao.cn/realtech/login',{RealtechLoginSearch : self.RealtechLoginSearch, type: 3})
                   .then((response) => {
                     var data = response.data;
                     if(data.code == 0){
