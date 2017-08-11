@@ -60,7 +60,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="课程期数" width="200">
+        <el-table-column align="center" label="课程期数" width="120">
           <template scope="scope">
             <span>{{ scope.row.courseNum }}</span>
           </template>
@@ -72,13 +72,19 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="缴费时间" width="300">
+        <el-table-column align="center" label="缴费时间" width="200">
           <template scope="scope">
             <span>{{ formate(scope.row.paytime) }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="操作" width="200">
+        <el-table-column align="center" label="渠道">
+          <template scope="scope">
+            <span>{{ scope.row.source }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" label="操作" width="100">
           <template scope="scope">
             <el-button @click="consfirm(scope.row.usercourseid)">退款</el-button>
           </template>
@@ -228,8 +234,20 @@ export default {
             courseName: this.userinfo[i].course.name,
             courseNum: this.userinfo[i].course.courseNum,
             money: this.userinfo[i].userCourse.money / 100,
-            paytime: this.userinfo[i].userCourse.payTime
+            paytime: this.userinfo[i].userCourse.payTime,
+            source: '无渠道'
           })
+        }
+        if(this._init == 0){
+          for(var i in this.userinfo) {
+            if(this.userinfo[i].userCourse.source != 0){
+              for(var j=0; j < this.channelList.length; j++){
+                if(this.userinfo[i].userCourse.source == this.channelList[j].id){
+                  this.richmanlist[i].source = this.channelList[j].desc;
+                }
+              }
+            }
+          }
         }
         console.log(this.richmanlist);
       })
