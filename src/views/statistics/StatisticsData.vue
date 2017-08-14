@@ -206,6 +206,16 @@ export default {
       if(this.showchannel == false) {
         this.channelNum = 0;
       }
+      this._init = 1;
+      var time = Date.now() / 1000;
+      var today = new Date(this.fortime(time)).getTime() / 1000;
+      this.start = this.formate(today);
+      this.end =  this.formate(Number.parseInt(time));
+      this.startN = today;
+      this.endN = Number.parseInt(time);
+      this.getuserinfo();
+
+
     },
     getuserinfo: function () {
       this.userinfo = [];
