@@ -39,6 +39,12 @@
             <span>{{ scope.row.comment }}</span>
           </template>
         </el-table-column>
+
+        <el-table-column min-width="200px" label="评论文章" align="center">
+          <template scope="scope">
+            <span>{{ scope.row.title }}</span>
+          </template>
+        </el-table-column>
   
         <el-table-column width="120px" align="center" label="评论时间">
           <template scope="scope">
