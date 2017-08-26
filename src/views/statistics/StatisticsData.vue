@@ -236,7 +236,7 @@ export default {
         }
         console.log(this.userinfo);
         for(var i in this.userinfo) {
-          this.count = this.count + (this.userinfo[i].userCourse.money/100);
+          this.count = this.count + this.userinfo[i].userCourse.money;
           this.richmanlist.push({
             usercourseid: this.userinfo[i].userCourse.id,
             wechat: this.userinfo[i].user.name,
@@ -250,6 +250,7 @@ export default {
             source: '无渠道'
           })
         }
+        this.count = this.count/100;
         if(this._init == 0){
           for(var i in this.userinfo) {
             if(this.userinfo[i].userCourse.source != 0){
