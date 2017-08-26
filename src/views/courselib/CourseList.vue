@@ -31,14 +31,14 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column min-width="300" align="center" label="简介">
+                <el-table-column min-width="150" align="center" label="简介">
                     <template scope="scope">
                         <el-input type="textarea" :rows="3" v-show="scope.row.edit" size="small" v-model="scope.row.introduction"></el-input>
                         <span v-show="!scope.row.edit"> {{ scope.row.introduction }}</span>
                     </template>
                 </el-table-column>
 
-                <el-table-column min-width="300" align="center" label="时间">
+                <el-table-column min-width="150" align="center" label="时间">
                     <template scope="scope">
                         <div class=""  v-show="scope.row.edit">
                             <span>开始时间</span><el-date-picker  v-model="NewStartTime" type="datetime" format="yyyy-MM-dd" placeholder="选择日期时间" ></el-date-picker> <br>
@@ -48,7 +48,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column min-width="100" align="center" label="费用">
+                <el-table-column min-width="80" align="center" label="费用">
                     <template scope="scope">
                         <el-input type="text" v-show="scope.row.edit" v-model="scope.row.money"></el-input>
                         <span v-show="!scope.row.edit">{{ scope.row.money }}</span>

@@ -148,7 +148,7 @@ export default {
         goback: function() {
             var courseid = Number.parseInt(this.$route.params.courseid);
             // this.$router.push('/courselib/CourseDetailList?courseid=' + courseid);
-            this.$router.push({name:'课程月份目录列表', params:{courseid: val}});
+            this.$router.push({name:'课程月份目录列表', params:{courseid: courseid}});
         },
         handleSizeChange: function() {
             const self= this;
