@@ -170,7 +170,9 @@
                   console.log(err)
                   self.$message('提交失败');
                 });
-            this.goListDetail(self.postForm.bookid);
+                setTimeout(function() {
+                    self.$router.push({name:'书籍详情列表', params: {id: self.postForm.bookid}});
+                }, 1000)
         },
         goListDetail: function(val){
           // this.$router.push('/booklib/ListDetail?id=' + val);

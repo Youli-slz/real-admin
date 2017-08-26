@@ -168,6 +168,8 @@ export default {
         },
         createaucio: function () {
             var self = this;
+            var courseid = Number.parseInt(this.$route.params.courseid);
+            var monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
             var monthcoursecatalogId = Number.parseInt(this.$route.params.monthcoursecatalogid);
             if(this.reply.content != ''){
                 this.vidoTime = document.getElementById("content");
@@ -191,12 +193,18 @@ export default {
                     console.log(err);
                     self.$message('创建失败');
                 })
+                setTimeout(function() {
+                    self.$router.push({ name: '月份书籍章节', params: { id: self.monthcoursecatalogid, bookid: self.bookid, courseid: courseid, monthcourseid: monthcourseid } });
+                }, 1000)
             } else {
                 if(this.Chapterlist1.length == 0){
                     this.$message("请填写信息");
                     return false;
                 }
                 else{
+                    setTimeout(function() {
+                        self.$router.push({ name: '月份书籍章节', params: { id: self.monthcoursecatalogid, bookid: self.bookid, courseid: courseid, monthcourseid: monthcourseid } });
+                    }, 1000)
                     this.$message('创建成功')
                 }
 
@@ -204,8 +212,6 @@ export default {
         },
         updateCourse: function() {
             var self = this;
-            var courseid = Number.parseInt(this.$route.params.courseid);
-            var monthcourseid = Number.parseInt(this.$route.params.monthcourseid);
             for (var i in this.Chapterlist) {
                 this.Chapterlist1.push({
                     monthCourseCatalogId: Number.parseInt(self.$route.params.monthcoursecatalogid),
@@ -227,9 +233,6 @@ export default {
                         console.log(err);
                         self.$message('创建失败');
                     })
-                setTimeout(function() {
-                    self.$router.push({ name: '月份书籍章节', params: { id: self.monthcoursecatalogid, bookid: self.bookid, courseid: courseid, monthcourseid: monthcourseid } });
-                }, 1000)
             } else {
                 this.createaucio();
             }
