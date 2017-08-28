@@ -20,7 +20,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="编辑" width="320">
+      <el-table-column align="center" label="编辑" width="320" fixed="right">
         <template scope="scope">
           <el-button type="primary" @click='goDetail(scope.row.id)' size="small" icon="edit">编辑</el-button>
           <el-button type="primary" @click='confirm(scope.row.id)' size="small" icon="close">删除</el-button>

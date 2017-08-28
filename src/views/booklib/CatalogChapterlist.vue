@@ -53,7 +53,7 @@
           </template>
         </el-table-column>
   
-        <el-table-column align="center" label="操作">
+        <el-table-column align="center" label="操作" fixed="right">
           <template scope="scope">
             <el-button type="primary" size="small" @click="confirm(scope.row.id)">删除</el-button>
           </template>

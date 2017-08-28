@@ -43,7 +43,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column width="320" align="center" label="操作">
+                <el-table-column width="320" align="center" label="操作" fixed="right">
                     <template scope="scope">
                         <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row)' icon="search">详情</el-button>
                         <el-button type="primary" v-show="!scope.row.edit" @click='scope.row.edit=true'  icon="edit">更新</el-button>

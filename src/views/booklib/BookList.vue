@@ -47,7 +47,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="编辑" width="320">
+      <el-table-column align="center" label="编辑" width="320" fixed="right">
         <template scope="scope">
           <div v-show="!scope.row.edit">
             <el-button type="primary" @click="goCatalog(scope.row.id)" size="small" icon="more" style="margin-bottom: 2px;">目录</el-button><br/>

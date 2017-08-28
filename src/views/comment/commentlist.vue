@@ -61,7 +61,7 @@
           </template>
         </el-table-column>     
   
-        <el-table-column width="100px" align="center" label="回复">
+        <el-table-column width="100px" align="center" label="回复" >
           <template scope="scope">
             <el-button @click="showreply = true,pubid = scope.row.id">回 复</el-button>
           </template>
