@@ -174,6 +174,9 @@
           this.ss = self.postForm.content.split('background-color: rgb(255, 255, 255);');
           console.log(this.ss);
           self.postForm.content = this.ss.join('');
+          this.ss = [];
+          this.ss = self.postForm.content.split('list-paddingleft-2');
+          self.postForm.content = this.ss.join('');
           console.log(self.postForm.content);
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
             id: self.id,

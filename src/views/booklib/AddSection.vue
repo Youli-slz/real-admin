@@ -150,7 +150,10 @@
             this.ss = self.postForm.content.split('background-color: rgb(255, 255, 255);');   // 去除Ueditor 生成带有css 样式的字符串中背景颜色样式。
             console.log(this.ss);
             self.postForm.content = this.ss.join('');
-            console.log(self.postForm.content);
+            this.ss = [];
+            this.ss = self.postForm.content.split('list-paddingleft-2');
+            self.postForm.content = this.ss.join('');
+            // console.log(self.postForm.content);
             self.postForm.bookid = Number.parseInt(this.$route.params.id)
             this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
               bookId: self.postForm.bookid,
