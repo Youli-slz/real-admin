@@ -123,7 +123,6 @@
           defaultMsg: '',
           ss:[],
 
-
           config:{
             initialFrameWidth: null,
             initialFrameHeight: 350
@@ -177,6 +176,7 @@
           this.ss = [];
           this.ss = self.postForm.content.split('list-paddingleft-2');
           self.postForm.content = this.ss.join('');
+          self.postForm.content = self.postForm.content.replace(/width: \d+.\d+px;/g,"width: 100%;");
           console.log(self.postForm.content);
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatechapter', {
             id: self.id,

@@ -153,7 +153,8 @@
             this.ss = [];
             this.ss = self.postForm.content.split('list-paddingleft-2');
             self.postForm.content = this.ss.join('');
-            // console.log(self.postForm.content);
+            self.postForm.content = self.postForm.content.replace(/width: \d+.\d+px;/g,"width: 100%;");
+            console.log(self.postForm.content);
             self.postForm.bookid = Number.parseInt(this.$route.params.id)
             this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createchapter', {
               bookId: self.postForm.bookid,
