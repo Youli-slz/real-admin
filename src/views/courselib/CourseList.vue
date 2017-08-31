@@ -38,6 +38,15 @@
                     </template>
                 </el-table-column>
 
+                <el-table-column align="center" label="课程状态">
+                    <template scope="scope">
+                        <span v-if="scope.row.startTime <= todayTime && scope.row.endTime >= todayTime" style="color:red">开课中</span>
+                        <span v-else-if="scope.row.startTime > todayTime">未开课</span>
+                        <span v-else>课程已结束</span>
+                        {{ todayTime }}
+                    </template>
+                </el-table-column>
+
                 <el-table-column min-width="150" align="center" label="时间">
                     <template scope="scope">
                         <div class=""  v-show="scope.row.edit">
@@ -97,7 +106,8 @@ export default {
             startT: null,
             endT : null,
             oldStartTime: null,
-            oldendTime: null
+            oldendTime: null,
+            todayTime: Number.parseInt(Date.now() / 1000)
 
         }
     },
