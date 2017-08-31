@@ -43,7 +43,6 @@
                         <span v-if="scope.row.startTime <= todayTime && scope.row.endTime >= todayTime" style="color:red">开课中</span>
                         <span v-else-if="scope.row.startTime > todayTime">未开课</span>
                         <span v-else>课程已结束</span>
-                        {{ todayTime }}
                     </template>
                 </el-table-column>
 
