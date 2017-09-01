@@ -208,7 +208,7 @@
           filters: {
             mime_types: [{
                 title: "Image files",
-                extensions: "jpg,png"
+                extensions: "jpg,png,x-icon,gif,jpeg"
               } // 限定flv后缀上传格式上传
             ]
           },

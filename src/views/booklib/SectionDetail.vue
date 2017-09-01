@@ -32,6 +32,12 @@
       </div>
     </div>
     <div style="margin-bottom: 20px;">
+      <label>图片网址上传:</label>
+      </div>
+    <div style="margin-bottom: 20px;">
+      <el-input v-model="IMGURL"></el-input>  
+    </div>
+    <div style="margin-bottom: 20px;">
     <label>章节序号:</label>
     </div>
     <div style="margin-bottom: 20px;">
@@ -225,7 +231,7 @@
             filters: {
               mime_types: [{
                 title: "Image files",
-                extensions: "jpg,png"
+                extensions: "jpg,png,x-icon,gif,jpeg"
               }]   // 限定flv后缀上传格式上传
             },
             multi_selection: true,
