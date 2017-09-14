@@ -180,7 +180,7 @@ export default {
         confirm(val) {
             var self = this;
             this.$confirm('是否删除？','提示', {
-                conofirmButtonText: '确定',
+                confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
