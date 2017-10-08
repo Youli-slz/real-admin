@@ -234,6 +234,10 @@ export default {
                 var Stime = self.timeChange(self.NewTaskTime);
                 self.taskT = new Date(Stime).getTime()/1000;
             }
+            if(self.taskT >= Date.parse(new Date())/1000 ){
+                // console.log("未来")
+                self.taskT = self.taskT - 8*3600;
+            }
            this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatemcbcatalog',{
                id: val.id,
                courseId: Number.parseInt(val.courseId),
