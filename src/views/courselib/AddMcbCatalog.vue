@@ -46,7 +46,7 @@
         }
       },
       methods: {
-        //中国标准时间转换成时间戳
+        //中国标准时间转换成时间格式
         formatTen:function (num) { 
         return num > 0 ? (num + "") : ("0" + num); 
         },
@@ -54,26 +54,21 @@
           var year = date.getFullYear(); 
           var month = date.getMonth() + 1; 
           var day = date.getDate(); 
-          var hour = date.getHours(); 
-          var minute = date.getMinutes(); 
-          var second = date.getSeconds(); 
-          return year + "-" + this.formatTen(month) + "-" + this.formatTen(day);    
+          var hour = 0; 
+          var minute = 0; 
+          var second = 0; 
+          return year + "-" + this.formatTen(month) + "-" + this.formatTen(day) + " " + this.formatTen(hour) + ":" + this.formatTen(minute);    
         },
         /// 提交方法
         onSubmit: function() {
           var self = this;
           var Stime = self.timeChange(self.Catalog.taskTime);
-          self.taskT = new Date(Stime).getTime()/1000;
+          self.taskT = Date.parse(Stime)/1000;
           self.Catalog.courseId = Number.parseInt(this.$route.params.courseid);
           self.Catalog.monthCourseId = Number.parseInt(this.$route.params.monthcourseid);
           self.Catalog.bookId = Number.parseInt(this.$route.params.bookid);
 
-          if(self.taskT >= Date.parse(new Date())/1000 ){
-            console.log("未来")
-            self.taskT = self.taskT - 8*3600;
-          }
           console.log(self.taskT);
-          // console.log(self);
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createmcbcatalog', {         /// 以下是向后台传输的数据
             courseId: self.Catalog.courseId,
             monthCourseId: self.Catalog.monthCourseId,

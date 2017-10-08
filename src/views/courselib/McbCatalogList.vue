@@ -212,7 +212,7 @@ export default {
                 self.$message('删除失败');
               })
         },
-        //中国标准时间转换成时间戳
+        //中国标准时间转换成时间格式
         formatTen:function (num) { 
         return num > 0 ? (num + "") : ("0" + num); 
         },
@@ -220,10 +220,10 @@ export default {
           var year = date.getFullYear(); 
           var month = date.getMonth() + 1; 
           var day = date.getDate(); 
-          var hour = date.getHours(); 
-          var minute = date.getMinutes(); 
-          var second = date.getSeconds(); 
-          return year + "-" + this.formatTen(month) + "-" + this.formatTen(day);    
+          var hour = 0; 
+          var minute = 0; 
+          var second = 0; 
+          return year + "-" + this.formatTen(month) + "-" + this.formatTen(day) + " " + this.formatTen(hour) + ":" + this.formatTen(minute);    
         },
        updateCourse: function(val) {
            var self = this;
@@ -232,12 +232,10 @@ export default {
            }
            else{
                 var Stime = self.timeChange(self.NewTaskTime);
-                self.taskT = new Date(Stime).getTime()/1000;
+                self.taskT = Date.parse(Stime)/1000;
             }
-            if(self.taskT >= Date.parse(new Date())/1000 ){
-                // console.log("未来")
-                self.taskT = self.taskT - 8*3600;
-            }
+
+            console.log(self.taskT);
            this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/updatemcbcatalog',{
                id: val.id,
                courseId: Number.parseInt(val.courseId),
