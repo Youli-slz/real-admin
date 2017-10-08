@@ -68,7 +68,12 @@
           self.Catalog.monthCourseId = Number.parseInt(this.$route.params.monthcourseid);
           self.Catalog.bookId = Number.parseInt(this.$route.params.bookid);
 
-          console.log(self);
+          if(self.taskT >= Date.parse(new Date())/1000 ){
+            console.log("未来")
+            self.taskT = self.taskT - 8*3600;
+          }
+          console.log(self.taskT);
+          // console.log(self);
           this.$http.post('http://reading.dingjiantaoke.cn/reading/coursemanager/createmcbcatalog', {         /// 以下是向后台传输的数据
             courseId: self.Catalog.courseId,
             monthCourseId: self.Catalog.monthCourseId,

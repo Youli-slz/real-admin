@@ -54,7 +54,7 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column width="250" align="center" label="操作" fixed="right">
+                <el-table-column width="250" align="center" label="操作">
                     <template scope="scope">
                         <el-button type="primary" v-show="!scope.row.edit" @click='goDetail(scope.row)' size="small" icon="search">详情</el-button>
                         <el-button type="primary" v-show="!scope.row.edit" @click='tasktime(scope.row.taskTime),scope.row.edit=true' size="small"  icon="edit">更新</el-button>
