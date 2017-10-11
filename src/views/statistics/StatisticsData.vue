@@ -272,9 +272,9 @@ export default {
             var year = d.getFullYear();
             var day = d.getDate();
             var month = d.getMonth()+1;
-            var hour = d.getHours();
-            var minute = d.getMinutes();
-            var f = year + "-" +this.initime(month) + "-" + this.initime(day);
+            var hour = 0
+            var minute = 0
+            var f = year + "-" +this.initime(month) + "-" + this.initime(day)+ " " + this.initime(hour) + ":" + this.initime(minute);
             return f;
         },
         initime:function (num) { 
