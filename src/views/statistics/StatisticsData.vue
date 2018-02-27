@@ -87,7 +87,8 @@
 
         <el-table-column align="center" label="操作" width="100">
           <template scope="scope">
-            <el-button @click="consfirm(scope.row.usercourseid)">退款</el-button>
+            <el-button v-if="scope.row.status == 1" @click="consfirm(scope.row.usercourseid)">退款</el-button>
+            <span v-else-if="scope.row.status == 2">已退款</span>
           </template>
         </el-table-column>
       </el-table>
@@ -255,6 +256,7 @@ export default {
             money: this.userinfo[i].userCourse.money / 100,
             paytime: this.userinfo[i].userCourse.payTime,
             phone: this.userinfo[i].user.phone,
+            status: this.userinfo[i].userCourse.status,
             source: '无渠道'
           })
         }
