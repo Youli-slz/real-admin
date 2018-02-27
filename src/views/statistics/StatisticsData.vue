@@ -123,7 +123,7 @@ export default {
       userinfo:[],
       _init: 0,
       inittype: null,
-      count: 0
+      count: 0,
     }
   },
   methods:{ 
@@ -149,6 +149,14 @@ export default {
           if (data.code == 0) {
             self.$message('退款成功');
             this.getuserinfo();
+          }
+          else if (data.code == 3) {
+            this.$alert(data.msg, '退款信息', {
+              confirmButtonText: '确定',
+              callback: action => {
+
+              }
+            });
           }
           else {
             self.$message('退款失败');
