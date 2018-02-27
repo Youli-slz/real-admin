@@ -85,10 +85,15 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="操作" width="100">
+        <el-table-column align="center" label="操作" width="150">
           <template scope="scope">
             <el-button v-if="scope.row.status == 1" @click="consfirm(scope.row.usercourseid)">退款</el-button>
-            <span v-else-if="scope.row.status == 2">已退款</span>
+            <span v-else-if="scope.row.status == 2">退款成功</span>
+            <span v-else-if="scope.row.status == 3">
+              需手动退款
+              <el-button @click="handConsfirm(scope.row.usercourseid)">已手动退款</el-button>
+            </span>
+            <span v-else-if="scope.row.status == 4">手动退款成功</span>
           </template>
         </el-table-column>
       </el-table>
@@ -127,7 +132,47 @@ export default {
       count: 0,
     }
   },
-  methods:{ 
+  methods:{
+    handConsfirm: function (val){
+      var self = this;
+      this.$confirm("是否已手动退款", '提示', {
+        bonfirmButtonText:'确定',
+        cancelButtonText:'取消',
+        type: 'warning'
+      }).then(() =>{
+        self.handRefund(val);
+      }).catch(() => {
+
+      });
+    },
+    handRefund: function(val){
+      var self = this;
+      this.$http.post('http://reading.dingjiantaoke.cn/reading/statistics/usercoursemanualrefund',{
+        id:val
+      })
+        .then(function(res) {
+          var data = res.data;
+          if (data.code == 0) {
+            self.$message('退款成功');
+            this.getuserinfo();
+          }
+          else if (data.code == 3) {
+            this.$alert(data.msg, '退款信息', {
+              confirmButtonText: '确定',
+              callback: action => {
+
+              }
+            });
+          }
+          else {
+            self.$message('退款失败'+data.msg);
+          }
+        })
+        .catch(function(err){
+          console.log(err);
+          self.$message('退款失败');
+        })
+    },
     consfirm: function(val) {
       var self = this;
       this.$confirm("是否退款", '提示', {
