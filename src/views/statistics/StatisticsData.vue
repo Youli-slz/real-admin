@@ -154,7 +154,7 @@ export default {
           var data = res.data;
           if (data.code == 0) {
             self.$message('退款成功');
-            this.getuserinfo();
+            self.getuserinfo();
           }
           else if (data.code == 3) {
             this.$alert(data.msg, '退款信息', {
@@ -194,13 +194,13 @@ export default {
           var data = res.data;
           if (data.code == 0) {
             self.$message('退款成功');
-            this.getuserinfo();
+            self.getuserinfo();
           }
           else if (data.code == 3) {
             this.$alert(data.msg, '退款信息', {
               confirmButtonText: '确定',
               callback: action => {
-
+                self.getuserinfo();
               }
             });
           }
