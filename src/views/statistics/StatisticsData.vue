@@ -148,7 +148,7 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         // inputPattern: ,
-      }).then((({value}) => {
+      }).then(({value}) => {
         self.handRefund(val, value);
       }).catch(() => {
         console.log("取消");
