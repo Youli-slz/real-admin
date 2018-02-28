@@ -90,8 +90,7 @@
             <el-button v-if="scope.row.status == 1" @click="consfirm(scope.row.usercourseid)">退款</el-button>
             <span v-else-if="scope.row.status == 2">退款成功</span>
             <span v-else-if="scope.row.status == 3">
-              需手动退款
-              <el-button @click="handConsfirm(scope.row.usercourseid)">已手动退款</el-button>
+              <el-button @click="handConsfirm(scope.row.usercourseid)">订单号退款</el-button>
             </span>
             <span v-else-if="scope.row.status == 4">手动退款成功</span>
           </template>
@@ -134,21 +133,32 @@ export default {
   },
   methods:{
     handConsfirm: function (val){
-      var self = this;
-      this.$confirm("是否已手动退款", '提示', {
-        bonfirmButtonText:'确定',
-        cancelButtonText:'取消',
-        type: 'warning'
-      }).then(() =>{
-        self.handRefund(val);
-      }).catch(() => {
+      // var self = this;
+      // this.$confirm("是否已手动退款", '提示', {
+      //   bonfirmButtonText:'确定',
+      //   cancelButtonText:'取消',
+      //   type: 'warning'
+      // }).then(() =>{
+      //   self.handRefund(val);
+      // }).catch(() => {
 
-      });
-    },
-    handRefund: function(val){
+      // });
       var self = this;
-      this.$http.post('http://reading.dingjiantaoke.cn/reading/statistics/usercoursemanualrefund',{
-        id:val
+      this.$prompt('请输入订单号','提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        // inputPattern: ,
+      }).then((({value}) => {
+        self.handRefund(val, value);
+      }).catch(() => {
+        console.log("取消");
+      })
+    },
+    handRefund: function(val,ddId){
+      var self = this;
+      this.$http.post('http://reading.dingjiantaoke.cn/reading/statistics/usercourserefundfromtransaction',{
+        userCourseId:val,
+        transactionId: ddId
       })
         .then(function(res) {
           var data = res.data;
