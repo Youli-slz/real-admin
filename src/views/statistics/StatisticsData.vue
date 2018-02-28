@@ -133,16 +133,6 @@ export default {
   },
   methods:{
     handConsfirm: function (val){
-      // var self = this;
-      // this.$confirm("是否已手动退款", '提示', {
-      //   bonfirmButtonText:'确定',
-      //   cancelButtonText:'取消',
-      //   type: 'warning'
-      // }).then(() =>{
-      //   self.handRefund(val);
-      // }).catch(() => {
-
-      // });
       var self = this;
       this.$prompt('请输入订单号','提示', {
         confirmButtonText: '确定',
@@ -207,10 +197,11 @@ export default {
             self.getuserinfo();
           }
           else if (data.code == 3) {
+            self.getuserinfo();
             this.$alert(data.msg, '退款信息', {
               confirmButtonText: '确定',
               callback: action => {
-                self.getuserinfo();
+                
               }
             });
           }
